@@ -1,7 +1,10 @@
 package ru.homecompany.bank.model;
 
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "document")
@@ -39,7 +42,6 @@ public class Document {
 
     /**
      * Return an unique code of the document
-     * Max length of code equals 5
      *
      * @return unique code
      */
@@ -68,6 +70,7 @@ public class Document {
 
     /**
      * Set an unique name of the country
+     * Max length of name equals 5
      *
      * @param name unique name
      */

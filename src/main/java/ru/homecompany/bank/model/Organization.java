@@ -1,9 +1,15 @@
 package ru.homecompany.bank.model;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Organization
@@ -26,7 +32,7 @@ public class Organization {
     @Column(name = "name", length = 25, unique = true, nullable = false)
     private String name;
 
-    @Column(name = "full_name", unique = true, length = 50, nullable = false)
+    @Column(name = "full_name", length = 50, unique = true, nullable = false)
     private String fullName;
 
     @Column(name = "inn", length = 12, unique = true, nullable = false)
@@ -125,7 +131,7 @@ public class Organization {
 
 
     /**
-     * Returns name of organization
+     * Return name of organization
      *
      * @return name
      */
@@ -134,9 +140,10 @@ public class Organization {
     }
 
     /**
-     * Sets name of organization
+     * Set name of organization
+     * Max length of name equals 25
      *
-     * @param name Name
+     * @param name unique name
      */
     public void setName(String name) {
         this.name = name;
@@ -153,8 +160,9 @@ public class Organization {
 
     /**
      * Set full name of organization
+     * Max length of full name equals 50
      *
-     * @param fullName Full name
+     * @param fullName unique full name
      */
     public void setFullName(String fullName) {
         this.fullName = fullName;
@@ -171,6 +179,7 @@ public class Organization {
 
     /**
      * Set taxpayer identification number of organization
+     * Max length of INN equals 12
      *
      * @param inn Taxpayer identification number
      */
@@ -188,7 +197,8 @@ public class Organization {
     }
 
     /**
-     * Set kpp
+     * Set kpp of organization
+     * Max length of INN equals 12
      *
      * @param kpp Reason Code
      */
@@ -207,8 +217,9 @@ public class Organization {
 
     /**
      * Set address of organization
+     * Max length of address equals 50
      *
-     * @param address Address
+     * @param address address
      */
     public void setAddress(String address) {
         this.address = address;
@@ -225,8 +236,9 @@ public class Organization {
 
     /**
      * Set phone of organization
+     * Max length of phone equals 12
      *
-     * @param phone Work telephone
+     * @param phone work telephone
      */
     public void setPhone(String phone) {
         this.phone = phone;

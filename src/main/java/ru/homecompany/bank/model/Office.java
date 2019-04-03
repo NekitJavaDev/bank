@@ -1,8 +1,15 @@
 package ru.homecompany.bank.model;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 /**
  * Office
@@ -11,16 +18,16 @@ import java.util.Set;
 @Table(name = "office")
 public class Office {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Integer id;
-
     /**
      * Service field for Hibernate
      */
     @Version
     private Integer version;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "name", length = 50, unique = true, nullable = false)
     private String name;
@@ -42,7 +49,7 @@ public class Office {
     private Organization organization;
 
     /**
-     * Empty constructor for Hibernate
+     * Public/Protected constructor for Hibernate
      */
     public Office() {
 
@@ -97,7 +104,6 @@ public class Office {
         return id;
     }
 
-
     //    /**
 //     * Returns ID of organization
 //     *
@@ -117,83 +123,85 @@ public class Office {
     }
 
     /**
-     * Returns name of the office
+     * Return unique name of the office
      *
-     * @return name of the office
+     * @return unique name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets name of the office
+     * Set unique name of the office
+     * Max length of name equals 50
      *
-     * @param name of the office
+     * @param name unique name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Returns address of the office
+     * Return address of the office
      *
-     * @return address of the office
+     * @return address
      */
     public String getAddress() {
         return address;
     }
 
     /**
-     * Sets address of the office
+     * Set address of the office
+     * Max length of address equals 50
      *
-     * @param address of the office
+     * @param address unique address
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
     /**
-     * Returns phone of the office
+     * Return phone of the office
      *
-     * @return phone of the office
+     * @return phone
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Sets phone of the office
+     * Set phone of the office
+     * Max length of phone equals 11
      *
-     * @param phone of the office
+     * @param phone unique phone
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * Returns dynamical of the office: true or false
+     * Return dynamical of the office: true or false
      *
-     * @return dynamical of the office
+     * @return dynamical
      */
     public Boolean getIsActive() {
         return isActive;
     }
 
     /**
-     * Sets isActive(dynamical) of the office
+     * Set isActive(dynamical) of the office
      *
-     * @param isActive of the office
+     * @param isActive
      */
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
-
-    /**
-     * Returns list of employees. Default capacity 10
-     *
-     * @return list of employees
-     */
+    //    /**
+//     * Return list of employees. Default capacity 10
+//     *
+//     * @return list of employees
+//     */
 //    public Set<Employee> getEmployees() {
 //        if (employees == null) {
 //            employees = new HashSet<>();

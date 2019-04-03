@@ -1,6 +1,10 @@
 package ru.homecompany.bank.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "country")
@@ -39,7 +43,6 @@ public class Country {
 
     /**
      * Return an unique code of the country
-     * Max length of code equals 5
      *
      * @return unique code
      */
@@ -69,6 +72,7 @@ public class Country {
 
     /**
      * Set an unique name of the country
+     * Max length of name equals 5
      *
      * @param name unique name
      */
