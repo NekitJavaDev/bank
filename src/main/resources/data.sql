@@ -14,14 +14,14 @@ INSERT INTO country (version, name, code) VALUES (0, 'Куба', '1333');
 INSERT INTO organization (version, name, full_name, inn, kpp, address, phone, is_active) VALUES
 (0, 'ПАO "Газпром"', 'Публичное Акционерное Общество "Газпром"', '7736050003', '772801001', 'ул. Наметкина, 16, Москва', '84957193001', TRUE);
 INSERT INTO organization (version, name, full_name, inn, kpp, address, phone, is_active) VALUES
-(0, 'ООO "Наш дом"', 'Общество с ограниченной ответсвенностью "Наш дом"', '2309096333 ', '230901001', 'ул. Пришвина, 14, Москва', '89184412491', TRUE);
+(0, 'ООO "Наш Дом"', 'Общество с ограниченной ответсвенностью "Наш Дом"', '2309096333 ', '230901001', 'ул. Пришвина, 14, Москва', '89184412491', TRUE);
 
 INSERT INTO office (version, org_id, name, address, phone, is_active) VALUES
-(0, 1, 'Головной офис Газпрома', 'ул. Балчуг, 7, Москва', '88001000701', TRUE);
+(0, 1, 'Головной офис "Газпрома"', 'ул. Балчуг, 7, Москва', '88001000701', TRUE);
 INSERT INTO office (version, org_id, name, address, phone, is_active) VALUES
 (0, 1, 'Дополнительный офис "Останкино"', 'ул. Академика Королева, д. 12, Москва', '88005553535', FALSE);
 INSERT INTO office (version, org_id, name, address, phone, is_active) VALUES
-(0, 2, 'Головной офис Наш Дом', 'ул. Космонавта Волкова, 10, Москва', '84951130285', TRUE);
+(0, 2, 'Головной офис "Наш Дом"', 'ул. Космонавта Волкова, 10, Москва', '84951130285', TRUE);
 INSERT INTO office (version, org_id, name, address, phone, is_active) VALUES
 (0, 2, 'Офис 19101', 'Дмитровское ш., 157, БЦ "Гефест", Москва', '88001560712', TRUE);
 

@@ -1,12 +1,12 @@
 package ru.homecompany.bank.service.organization;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homecompany.bank.dao.organization.OrganizationDao;
 import ru.homecompany.bank.model.Organization;
+import ru.homecompany.bank.service.mapper.MapperFacade;
+import ru.homecompany.bank.view.organization.OrganizationView;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ import java.util.List;
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationDao organizationDao;
+    private final MapperFacade mapperFacade;
 
     /**
      * Dependency injection of OrganizationDao implementation through public constructor
@@ -24,8 +25,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @param organizationDao
      */
     @Autowired
-    public OrganizationServiceImpl(OrganizationDao organizationDao) {
+    public OrganizationServiceImpl(OrganizationDao organizationDao, MapperFacade mapperFacade) {
         this.organizationDao = organizationDao;
+        this.mapperFacade = mapperFacade;
     }
 
     /**
@@ -34,8 +36,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Organization> findAll() {
-        return organizationDao.findAll();
+    public List<OrganizationView> findAll() {
+        List<Organization> all = organizationDao.findAll();
+        return mapperFacade.mapAsList(all, OrganizationView.class);
     }
 
     /**
@@ -43,8 +46,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     @Transactional
-    public Organization findById(Integer id) {
-        return organizationDao.findById(id);
+    public OrganizationView findById(Integer id) {
+        Organization organization = organizationDao.findById(id);
+        return mapperFacade.map(organization, OrganizationView.class);
     }
 
     /**

@@ -1,7 +1,7 @@
 package ru.homecompany.bank.service.organization;
 
 
-import ru.homecompany.bank.model.Organization;
+import ru.homecompany.bank.view.organization.OrganizationView;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface OrganizationService {
      *
      * @return {@Organizations}
      */
-    List<Organization> findAll();
+    List<OrganizationView> findAll();
 
     /**
      * Get organization by ID
@@ -23,7 +23,7 @@ public interface OrganizationService {
      * @param id Identifier
      * @return {@Organization}
      */
-    Organization findById(Integer id);
+    OrganizationView findById(Integer id);
 
     void update(Integer id, String name, String fullName, String inn, String kpp,
                 String address, String phone, Boolean isActive);
