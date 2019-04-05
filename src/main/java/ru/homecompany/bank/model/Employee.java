@@ -1,16 +1,10 @@
 package ru.homecompany.bank.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "employee")
@@ -30,6 +24,11 @@ public class Employee {
     @Column(name = "id")
     private Integer id;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "office_id")
+    private Office office;
+
     /**
      * Name of employee
      */
@@ -39,7 +38,7 @@ public class Employee {
     /**
      * Lst name of employee
      */
-    @Column(name = "second_name", length = 50, nullable = true)
+    @Column(name = "second_name", length = 50, nullable = false)
     private String secondName;
 
     /**
@@ -60,23 +59,27 @@ public class Employee {
     @Column(name = "phone", length = 11, unique = true, nullable = true)
     private String phone;
 
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "doc_code")
+    private Document document;
+
+    @Column(name = "doc_number", length = 45, unique = true, nullable = false)
+    private String docNumber;
+
+    @Column(name = "doc_date")
+    @Temporal(TemporalType.DATE)
+    private Date docDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "citizenship_code", nullable = false)
+    private Country country;
+
     /**
      * Identify of employee
      */
     @Column(name = "is_identified", nullable = true)
     private Boolean isIdentified;
-
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "doc_id")
-//    private Document documentId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-    private Country info;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "office_id")
-//    private Office office;
 
     /**
      * Constructor for Hibernate
@@ -85,127 +88,97 @@ public class Employee {
 
     }
 
-    /**
-     * Constructor of class Employee with 2 required parameters
-     *
-     * @param firstName name of employee
-     * @param position  name of position at work
-     */
-    public Employee(String firstName, String position) {
+    public Employee(String firstName, String secondName, String middleName, String position, String phone, Document document, String docNumber, Date docDate, Country country, Boolean isIdentified) {
         this.firstName = firstName;
+        this.secondName = secondName;
+        this.middleName = middleName;
         this.position = position;
+        this.phone = phone;
+        this.document = document;
+        this.docNumber = docNumber;
+        this.docDate = docDate;
+        this.country = country;
+        this.isIdentified = isIdentified;
+    }
+
+    public Employee(Integer id, String firstName, String secondName, String middleName, String position, String phone, Document document, String docNumber, Date docDate, Country country, Boolean isIdentified) {
+        this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.middleName = middleName;
+        this.position = position;
+        this.phone = phone;
+        this.document = document;
+        this.docNumber = docNumber;
+        this.docDate = docDate;
+        this.country = country;
+        this.isIdentified = isIdentified;
     }
 
     /**
-     * Returns unique ID of employee
+     * Return unique ID of employee
      *
-     * @return id of employee
+     * @return id
      */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * Returns id of the office
-     *
-     * @return id of the office
-     */
-//    public Integer getOfficeId() {
-//        return this.office.getId();
-//    }
+    public Office getOffice() {
+        return office;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
+    }
 
     /**
-     * Sets ID of the office
+     * Return name of employee
      *
-     * @param officeId id of the office
-     */
-//    public void setOfficeId(Integer officeId) {
-//        this.office.setId(officeId);
-//    }
-
-    /**
-     * Returns ID of the info
-     *
-     * @return id of the info
-     */
-//    public Integer getCountryId() {
-//        return this.info.getId();
-//    }
-
-    /**
-     * Sets ID of the info
-     *
-     * @param countryId id of the info
-     */
-//    public void setCountryId(Integer countryId) {
-//        this.info.setId(countryId);
-//    }
-
-    /**
-     * Returns ID of document
-     *
-     * @return id of document
-     */
-//    public Integer getDocId() {
-//        return documentId.getId();
-//    }
-
-    /**
-     * Sets ID of the contract
-     *
-     * @param docId id of the contract
-     */
-//    public void setDocumentId(Integer docId) {
-//        this.documentId.setId(docId);
-//    }
-
-    /**
-     * Returns name of employee
-     *
-     * @return name of employee
+     * @return name
      */
     public String getFirstName() {
         return firstName;
     }
 
     /**
-     * Sets name of employee
+     * Set name of employee
      *
-     * @param firstName name of employee
+     * @param firstName name
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     /**
-     * Returns last name of employee
+     * Return last name of employee
      *
-     * @return last name of employee
+     * @return lastName
      */
     public String getSecondName() {
         return secondName;
     }
 
     /**
-     * Sets last name of employee
+     * Set last name of employee
      *
-     * @param secondName last name of employee
+     * @param secondName last name
      */
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
 
     /**
-     * Returns middle name of employee
+     * Return middle name of employee
      *
-     * @return middle name of employee
+     * @return middleName
      */
     public String getMiddleName() {
         return middleName;
     }
 
     /**
-     * Sets middle name of employee
+     * Set middle name of employee
      *
      * @param middleName middle name of employee
      */
@@ -214,43 +187,75 @@ public class Employee {
     }
 
     /**
-     * Returns position of employee
+     * Return position of employee
      *
-     * @return position of employee
+     * @return position
      */
     public String getPosition() {
         return position;
     }
 
     /**
-     * Sets position of employee at work
+     * Set position of employee
      *
-     * @param position position of employee
+     * @param position position
      */
     public void setPosition(String position) {
         this.position = position;
     }
 
     /**
-     * Returns phone of employee
+     * Return phone of employee
      *
-     * @return phone of employee
+     * @return phone
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Sets phone of employee
+     * Set phone of employee
      *
-     * @param phone phone of employee
+     * @param phone phone
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
+    public String getDocNumber() {
+        return docNumber;
+    }
+
+    public void setDocNumber(String docNumber) {
+        this.docNumber = docNumber;
+    }
+
+    public Date getDocDate() {
+        return docDate;
+    }
+
+    public void setDocDate(Date docDate) {
+        this.docDate = docDate;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     /**
-     * Returns identify of employee: true or false
+     * Return identify of employee: true or false
      *
      * @return identify of employee
      */
@@ -259,9 +264,9 @@ public class Employee {
     }
 
     /**
-     * Sets identify of employee
+     * Set identify of employee
      *
-     * @param isIdentified identify of employee
+     * @param isIdentified identify
      */
     public void setIsIdentified(Boolean isIdentified) {
         this.isIdentified = isIdentified;
@@ -269,14 +274,19 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "\"data\"{" +
-                "\n \"id=" + id +
-                ",\n \"firstName\":\"" + firstName + "\"" +
-                ",\n \"secondName\":\"" + secondName + "\"" +
-                ",\n \"middleName\":\"" + middleName + "\"" +
-                ",\n \"position\":\"" + position + "\"" +
-                ",\n \"phone\":\"" + phone + '\'' + "\"" +
-                ",\n \"isIdentified\":\"" + isIdentified + "\"" +
-                "\n}";
+        return "{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", position='" + position + '\'' +
+                ", phone='" + phone + '\'' +
+                ", docName='" + document.getName() + '\'' +
+                ", docNumber='" + docNumber + '\'' +
+                ", docDate='" + docDate + '\'' +
+                ", citizenshipName='" + country.getName() + '\'' +
+                ", citizenshipCode='" + country.getCode() + '\'' +
+                ", isIdentified='" + isIdentified + '\'' +
+                '}';
     }
 }

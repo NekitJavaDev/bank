@@ -1,15 +1,9 @@
 package ru.homecompany.bank.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Office
@@ -41,12 +35,14 @@ public class Office {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-//    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<Employee> employees;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id")
     private Organization organization;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL)
+    private List<Employee> employees;
 
     /**
      * Public/Protected constructor for Hibernate
@@ -197,32 +193,23 @@ public class Office {
         this.isActive = isActive;
     }
 
-    //    /**
-//     * Return list of employees. Default capacity 10
-//     *
-//     * @return list of employees
-//     */
-//    public Set<Employee> getEmployees() {
-//        if (employees == null) {
-//            employees = new HashSet<>();
-//        }
-//        return employees;
-//    }
-//
-//    public void setEmployees(Set<Employee> employees) {
-//        this.employees = employees;
-//    }
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
     @Override
     public String toString() {
         return "{" +
-                "id=" + id +
-                "org_id=" + getOrganization().getId() +
-                ", name='" + name +
-                ", address='" + address +
-                ", phone='" + phone +
-                ", isActive=" + isActive +
-//                ", employees=" + employees +
-                ", organization=" + organization.getName() +
+                "id='" + id + "\'" +
+                ", org_id='" + getOrganization().getId() + "\'" +
+                ", name='" + name + "\'" +
+                ", address='" + address + "\'" +
+                ", phone='" + phone + "\'" +
+                ", isActive='" + isActive + "\'" +
                 '}';
     }
 }

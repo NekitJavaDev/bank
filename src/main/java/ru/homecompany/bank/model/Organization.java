@@ -1,5 +1,7 @@
 package ru.homecompany.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +52,8 @@ public class Organization {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private List<Office> offices;
 
     /**
@@ -95,30 +98,6 @@ public class Organization {
         this.kpp = kpp;
         this.address = address;
     }
-
-//    public Organization(Integer id) {
-//        this.id = id;
-//    }
-
-//    public Organization(String name) {
-//        this.name = name;
-//    }
-
-//    public OrganizationView convertOrgToView() {
-//        OrganizationView view = new OrganizationView();
-//
-//        view.id = id;
-//        view.name = name;
-//        view.fullname = fullName;
-//        view.inn = inn;
-//        view.kpp = kpp;
-//        view.address = address;
-//        view.phone = phone;
-//        view.isActive = isActive;
-//
-//        return view;
-//    }
-
 
     /**
      * Return unique ID of organization
@@ -283,14 +262,14 @@ public class Organization {
     @Override
     public String toString() {
         return " {" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", inn='" + inn + '\'' +
                 ", kpp='" + kpp + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
-                ", isActive=" + isActive +
+                ", isActive='" + isActive + '\'' +
                 "}";
     }
 }
