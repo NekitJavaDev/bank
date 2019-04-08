@@ -60,7 +60,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization findByName(String name) {
-        logger.info("Get organization by name : " + name);
+        logger.info("## Get organization by name : " + name);
         CriteriaQuery<Organization> criteriaQuery = buildCriteriaName(name);
         TypedQuery<Organization> query = em.createQuery(criteriaQuery);
         return query.getSingleResult();
@@ -80,7 +80,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public void save(Organization organization) {
-        logger.info("save:" + organization.toString());
+        logger.info("## Save organization :" + organization.toString());
         em.persist(organization);
     }
 

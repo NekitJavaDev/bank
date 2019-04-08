@@ -27,7 +27,7 @@ public class Organization {
     private Integer version;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -46,10 +46,10 @@ public class Organization {
     @Column(name = "address", length = 50, nullable = false)
     private String address;
 
-    @Column(name = "phone", length = 12, unique = true, nullable = false)
+    @Column(name = "phone", length = 11)
     private String phone;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @JsonIgnore
@@ -57,7 +57,7 @@ public class Organization {
     private List<Office> offices;
 
     /**
-     * Empty constructor for Hibernate
+     * Empty public/protected constructor for Hibernate
      */
     public Organization() {
 
@@ -66,15 +66,15 @@ public class Organization {
     /**
      * Constructor of class Organization with 5 required parameters
      *
-     * @param nameOrg     Name
-     * @param fullNameOrg Full name
-     * @param inn         Taxpayer identification number
-     * @param kpp         Reason Code
-     * @param address     Address
+     * @param name     Name
+     * @param fullName Full name
+     * @param inn      Taxpayer identification number
+     * @param kpp      Reason Code
+     * @param address  Address
      */
-    public Organization(String nameOrg, String fullNameOrg, String inn, String kpp, String address) {
-        this.name = nameOrg;
-        this.fullName = fullNameOrg;
+    public Organization(String name, String fullName, String inn, String kpp, String address) {
+        this.name = name;
+        this.fullName = fullName;
         this.inn = inn;
         this.kpp = kpp;
         this.address = address;
@@ -83,17 +83,17 @@ public class Organization {
     /**
      * Constructor of class Organization with 6 required parameters
      *
-     * @param id          Identifier
-     * @param nameOrg     Name of organization
-     * @param fullNameOrg Full name
-     * @param inn         Taxpayer identification number
-     * @param kpp         Reason Code
-     * @param address     Address
+     * @param id       Identifier
+     * @param name     Name of organization
+     * @param fullName Full name
+     * @param inn      Taxpayer identification number
+     * @param kpp      Reason Code
+     * @param address  Address
      */
-    public Organization(Integer id, String nameOrg, String fullNameOrg, String inn, String kpp, String address) {
+    public Organization(Integer id, String name, String fullName, String inn, String kpp, String address) {
         this.id = id;
-        this.name = nameOrg;
-        this.fullName = fullNameOrg;
+        this.name = name;
+        this.fullName = fullName;
         this.inn = inn;
         this.kpp = kpp;
         this.address = address;
@@ -177,7 +177,7 @@ public class Organization {
 
     /**
      * Set kpp of organization
-     * Max length of INN equals 12
+     * Max length of KPP equals 9
      *
      * @param kpp Reason Code
      */
@@ -215,7 +215,7 @@ public class Organization {
 
     /**
      * Set phone of organization
-     * Max length of phone equals 12
+     * Max length of phone equals 11
      *
      * @param phone work telephone
      */
@@ -251,7 +251,7 @@ public class Organization {
     }
 
     /**
-     * Set offices of this organization
+     * Set all offices of this organization
      *
      * @param offices Offices
      */
