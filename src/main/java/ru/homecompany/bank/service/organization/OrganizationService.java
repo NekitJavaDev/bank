@@ -1,6 +1,9 @@
 package ru.homecompany.bank.service.organization;
 
 
+import ru.homecompany.bank.model.Organization;
+import ru.homecompany.bank.view.organization.OrganizationFilter;
+import ru.homecompany.bank.view.organization.OrganizationFilterView;
 import ru.homecompany.bank.view.organization.OrganizationView;
 
 import java.util.List;
@@ -15,7 +18,7 @@ public interface OrganizationService {
      *
      * @return {@Organizations}
      */
-    List<OrganizationView> findAll();
+    List<Organization> findAll();
 
     /**
      * Get organization by ID
@@ -23,11 +26,11 @@ public interface OrganizationService {
      * @param id Identifier
      * @return {@Organization}
      */
-    OrganizationView findById(Integer id);
+    Organization findById(Integer id);
 
-    void update(Integer id, String name, String fullName, String inn, String kpp,
-                String address, String phone, Boolean isActive);
+    List<OrganizationFilterView> findByFilter(OrganizationFilter filter);
 
-    void save(String name, String fullName, String inn, String kpp,
-              String address, String phone, Boolean isActive);
+//    void update(OrganizationView organizationView);
+//
+//    void save(OrganizationView organizationView);
 }

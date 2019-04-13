@@ -1,13 +1,16 @@
 package ru.homecompany.bank.service.organization;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homecompany.bank.dao.organization.OrganizationDao;
 import ru.homecompany.bank.model.Organization;
-import ru.homecompany.bank.service.mapper.MapperFacade;
-import ru.homecompany.bank.view.organization.OrganizationView;
+import ru.homecompany.bank.view.organization.OrganizationFilter;
+import ru.homecompany.bank.view.organization.OrganizationFilterView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,29 +19,26 @@ import java.util.List;
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 
+    private final Logger logger = LoggerFactory.getLogger(OrganizationServiceImpl.class);
     private final OrganizationDao organizationDao;
-    private final MapperFacade mapperFacade;
 
     /**
      * Dependency injection of OrganizationDao implementation through public constructor
      *
-     * @param organizationDao
+     * @param organizationDao organization from DAO layer
      */
     @Autowired
-    public OrganizationServiceImpl(OrganizationDao organizationDao, MapperFacade mapperFacade) {
+    public OrganizationServiceImpl(OrganizationDao organizationDao) {
         this.organizationDao = organizationDao;
-        this.mapperFacade = mapperFacade;
     }
 
     /**
      * {@inheritDoc}
      */
-
     @Override
     @Transactional(readOnly = true)
-    public List<OrganizationView> findAll() {
-        List<Organization> all = organizationDao.findAll();
-        return mapperFacade.mapAsList(all, OrganizationView.class);
+    public List<Organization> findAll() {
+        return organizationDao.findAll();
     }
 
     /**
@@ -46,24 +46,53 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     @Transactional
-    public OrganizationView findById(Integer id) {
-        Organization organization = organizationDao.findById(id);
-        return mapperFacade.map(organization, OrganizationView.class);
+    public Organization findById(Integer id) {
+        return organizationDao.findById(id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Transactional
     @Override
-    public void update(Integer id, String name, String fullName, String inn, String kpp, String address, String phone, Boolean isActive) {
-
+    public List<OrganizationFilterView> findByFilter(OrganizationFilter filter) {
+        List<Organization> organizations = organizationDao.list(filter);
+        if (!organizations.isEmpty()) {
+            logger.info("## SERVICE LAYER ORG 1: " + organizations.get(0).toString());
+        }
+        List<OrganizationFilterView> list = new ArrayList<>();
+        for (int i = 0; i < organizations.size(); i++) {
+            OrganizationFilterView viewList = new OrganizationFilterView();
+            viewList.setId(organizations.get(i).getId());
+            viewList.setName(organizations.get(i).getName());
+            viewList.setActive(organizations.get(i).getIsActive());
+            list.add(i, viewList);
+        }
+        return list;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void save(String name, String fullName, String inn, String kpp, String address, String phone, Boolean isActive) {
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public void save(OrganizationView organizationView) {
+//        return organizationView;
+//    }
 
-    }
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    @Transactional
+//    public void update(OrganizationView organizationView) {
+//        System.out.println(organizationView.toString());
+//        Integer id = organizationView.id;
+//        Organization organization = organizationDao.findById(id);
+//        mapperFacade.map(organizationView, organization);
+//        System.out.println(organization.toString());
+//        organizationDao.update(organization);
+//    }
+//
+//    @Override
+//    public void save(OrganizationView organizationView) {
+//
+//    }
 }
+

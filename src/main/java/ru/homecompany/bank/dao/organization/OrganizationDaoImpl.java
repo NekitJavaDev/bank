@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.homecompany.bank.model.Organization;
+import ru.homecompany.bank.view.organization.OrganizationFilter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -59,6 +60,18 @@ public class OrganizationDaoImpl implements OrganizationDao {
      * {@inheritDoc}
      */
     @Override
+    public List<Organization> list(OrganizationFilter filter) {
+        logger.info("## Get organizations by Filter : " + filter.name  + " " + filter.inn + " " + filter.isActive);
+        CriteriaQuery<Organization> criteriaQuery = buildCriteriaFilterList(filter);
+        TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        logger.info("## Get organizations by Filter DAO LAYER : " + query.getResultList());
+        return query.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Organization findByName(String name) {
         logger.info("## Get organization by name : " + name);
         CriteriaQuery<Organization> criteriaQuery = buildCriteriaName(name);
@@ -71,7 +84,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public void update(Organization organization) {
-        logger.info("Update organization " + organization.toString());
+        logger.info("## Update organization " + organization.toString());
         em.merge(organization);
     }
 
@@ -105,6 +118,25 @@ public class OrganizationDaoImpl implements OrganizationDao {
         Root<Organization> organizationRoot = criteriaQuery.from(Organization.class);
         criteriaQuery.where(criteriaBuilder.equal(organizationRoot.get("id"), id));
         criteriaQuery.select(organizationRoot);
+        return criteriaQuery;
+    }
+
+    private CriteriaQuery<Organization> buildCriteriaFilterList(OrganizationFilter filter) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Organization> criteriaQuery = criteriaBuilder.createQuery(Organization.class);
+        Root<Organization> organizationRoot = criteriaQuery.from(Organization.class);
+
+        if (filter.name != null) {
+            criteriaQuery.where(criteriaBuilder.like(organizationRoot.get("name"), "%" + filter.name + "%"));
+        }
+        if (filter.inn != null) {
+            criteriaQuery.where(criteriaBuilder.like(organizationRoot.get("inn"), "%" + filter.inn + "%"));
+        }
+        if (filter.isActive != null) {
+            criteriaQuery.where(criteriaBuilder.like(organizationRoot.get("isActive"), "%" + filter.isActive + "%"));
+        }
+        criteriaQuery.select(organizationRoot);
+
         return criteriaQuery;
     }
 

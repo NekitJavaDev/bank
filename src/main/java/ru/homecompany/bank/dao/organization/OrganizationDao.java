@@ -1,9 +1,9 @@
 package ru.homecompany.bank.dao.organization;
 
 import ru.homecompany.bank.model.Organization;
+import ru.homecompany.bank.view.organization.OrganizationFilter;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * DAO for working with organizations
@@ -25,8 +25,13 @@ public interface OrganizationDao {
      */
     Organization findById(Integer id);
 
-    // TODO: 27.03.2019
-//    List<Organization> list(OrganizationFilterView filter);
+    /**
+     * Get organizations by Filter (can be input first chars of a word)
+     *
+     * @param filter NAME(not null), INN, KPP
+     * @return {@Organizations}
+     */
+    List<Organization> list(OrganizationFilter filter);
 
     /**
      * Get organization by name
