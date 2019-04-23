@@ -71,27 +71,10 @@ public class Organization {
      * @param inn      Taxpayer identification number
      * @param kpp      Reason Code
      * @param address  Address
+     * @param phone    Telephone
+     * @param isActive Activity (true or false)
      */
-    public Organization(String name, String fullName, String inn, String kpp, String address) {
-        this.name = name;
-        this.fullName = fullName;
-        this.inn = inn;
-        this.kpp = kpp;
-        this.address = address;
-    }
-
-    /**
-     * Constructor of class Organization with 6 required parameters
-     *
-     * @param id       Identifier
-     * @param name     Name of organization
-     * @param fullName Full name
-     * @param inn      Taxpayer identification number
-     * @param kpp      Reason Code
-     * @param address  Address
-     */
-    public Organization(Integer id, String name, String fullName, String inn, String kpp, String address) {
-        this.id = id;
+    public Organization(String name, String fullName, String inn, String kpp, String address, String phone, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
