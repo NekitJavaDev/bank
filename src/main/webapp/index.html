@@ -2,13 +2,53 @@
 <html>
 <head>
     <title>REST-API</title>
-</head>
-<body>
+    <style>
+        h1 {
+            text-align: center;
+            color: mediumspringgreen;
+            border: 6px ridge mediumspringgreen;
+        }
 
-<br/>
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            font-size: 130%;
+        }
+
+        b {
+            color: orangered;
+        }
+
+        ul {
+            list-style-type: circle
+        }
+
+        li {
+            margin-left: 15px;
+            font-size: 115%;
+        }
+
+        body {
+            background-color: whitesmoke;
+        }
+
+        mark {
+            background-color: mediumspringgreen;
+        }
+    </style>
+</head>
+
+<body>
 <hr/>
-<h1 align="center"> WELCOME TO REST SERVICE </h1>
-<h2 align="center"> SEVERAL URL ADDRESSES TO CONNECTING </h2>
+<h1 style="-webkit-text-stroke: 2px #9b4bff"> WELCOME TO REST-API SERVICE </h1>
+<h2> SEVERAL URL ADDRESSES TO RECEIVE DATA BY
+    <mark style="background-color: mediumspringgreen"> GET</mark>
+    METHODS:
+    <i>(Click on them)</i>
+</h2>
 
 <p>
     <a href="http://localhost:8888/api/countries">http://localhost:8888/api/countries</a>
@@ -17,17 +57,119 @@
     <a href="http://localhost:8888/api/docs">http://localhost:8888/api/docs</a>
 </p>
 <p>
-    <a href="http://localhost:8888/api/organization/1">http://localhost:8888/api/organization/{id}</a> 
-	Default id is equals 1 (Change id in http://localhost:8888/api/organization/{id} to your Number)  
+    <a href="http://localhost:8888/api/organization/1">http://localhost:8888/api/organization/{id}</a>
+    <br/>Default id is equals 1 (Change id in http://localhost:8888/api/organization/{id} to your Number)
 </p>
 <p>
-    <a href="http://localhost:8888/api/user/1">http://localhost:8888/api/user/{id}</a> 
-	Default id is equals 1 (Change id in http://localhost:8888/api/user/{id} to your Number)  
+    <a href="http://localhost:8888/api/user/1">http://localhost:8888/api/user/{id}</a>
+    <br/>Default id is equals 1 (Change id in http://localhost:8888/api/user/{id} to your Number)
 </p>
 <p>
-    <a href="http://localhost:8888/api/office/1">http://localhost:8888/api/office/{id}</a> 
-	Default id is equals 1 (Change id in http://localhost:8888/api/office/{id} to your Number)  
+    <a href="http://localhost:8888/api/office/1">http://localhost:8888/api/office/{id}</a>
+    <br/>Default id is equals 1 (Change id in http://localhost:8888/api/office/{id} to your Number)
 </p>
+
+<br/>
+<hr/>
+<h2> SEVERAL URL ADDRESSES TO SEND DATA BY
+    <mark style="background-color: mediumspringgreen">POST</mark>
+    METHODS:
+</h2>
+<h2><i>(You can test this URL addresses, for example by <a href="https://www.getpostman-beta.com">POSTMAN</a>)</i></h2>
+
+<p>
+    <ins>http://localhost:8888/api/organization/list</ins>
+    <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<p>
+    <i>If you want to find only by <strong>"inn"</strong> or <strong>"isActive"</strong> without <strong>"name"</strong>
+        you need to make the field <strong>"name"</strong> empty as shown here: </i> <br/>
+    <mark style="background-color: #ef86ff"><code style="font-size: 110%">{"name":"","inn":"555","isActive":true}</code></mark>
+</p>
+<ul>
+    <li>"name":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"inn":""</li>
+    <li>"isActive":""
+        <mark style="background-color: yellow">//true or false</mark>
+    </li>
+    )
+</ul>
+
+<p>
+    <ins>http://localhost:8888/api/organization/save</ins>
+    <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<ul>
+    <li>"name":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"fullName":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"inn":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"kpp":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"address":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"phone":"",</li>
+    <li>"isActive":""
+        <mark style="background-color: yellow">//true or false</mark>
+    </li>
+    )
+</ul>
+
+<p>
+    <ins>http://localhost:8888/api/organization/update</ins>
+    <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<ul>
+    <li>"id":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"name":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"fullName":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"inn":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"kpp":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"address":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"phone":"",</li>
+    <li>"isActive":""
+        <mark style="background-color: yellow">true or false</mark>
+    </li>
+    )
+</ul>
+
+<p>
+    <ins>http://localhost:8888/api/office/list/{orgId}</ins>
+    <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<ul>
+    <li>"orgId":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"name":"",</li>
+    <li>"phone":"",</li>
+    <li>"isActive":""
+        <mark style="background-color: yellow">//true or false</mark>
+    </li>
+    )
+</ul>
+
 
 </body>
 </html>

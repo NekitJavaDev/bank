@@ -12,9 +12,9 @@ INSERT INTO country (version, name, code) VALUES (0, 'Мексика', '613');
 INSERT INTO country (version, name, code) VALUES (0, 'Куба', '1333');
 
 INSERT INTO organization (version, name, full_name, inn, kpp, address, phone, is_active) VALUES
-(0, 'ПАO "Газпром"', 'Публичное Акционерное Общество "Газпром"', '7736050003', '772801001', 'ул. Наметкина, 16, Москва', '84957193001', TRUE);
+(0, 'ПАО "Газпром"', 'Публичное Акционерное Общество "Газпром"', '7736050003', '772801001', 'ул. Наметкина, 16, Москва', '84957193001', TRUE);
 INSERT INTO organization (version, name, full_name, inn, kpp, address, phone, is_active) VALUES
-(0, 'ООO "Наш Дом"', 'Общество с ограниченной ответсвенностью "Наш Дом"', '2309096333 ', '230901001', 'ул. Пришвина, 14, Москва', '89184412491', TRUE);
+(0, 'ООО "Наш Дом"', 'Общество с ограниченной ответсвенностью "Наш Дом"', '2222222222 ', '230901001', 'ул. Пришвина, 14, Москва', '89184412491', FALSE);
 
 INSERT INTO office (version, org_id, name, address, phone, is_active) VALUES
 (0, 1, 'Головной офис "Газпрома"', 'ул. Балчуг, 7, Москва', '88001000701', TRUE);

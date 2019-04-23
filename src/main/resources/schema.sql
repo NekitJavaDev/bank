@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS organization
   inn       VARCHAR(12) NOT NULL COMMENT 'ИНН',
   kpp       VARCHAR(9)  NOT NULL COMMENT 'КПП',
   address   VARCHAR(50) NOT NULL COMMENT 'Адресс',
-  phone     VARCHAR(11) NOT NULL COMMENT 'Телефон',
-  is_active BOOLEAN     NOT NULL COMMENT 'Работает ли на данный момент'
+  phone     VARCHAR(11) COMMENT 'Телефон',
+  is_active BOOLEAN     COMMENT 'Работает ли на данный момент'
 );
 COMMENT ON TABLE organization IS 'Организация';
 CREATE UNIQUE INDEX UX_Organization_Name ON organization (name ASC);
