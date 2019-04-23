@@ -11,11 +11,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of repository OrganizationDao
+ * Implementation of repository OrganizationDao using JPA
  */
 @Repository
 public class OrganizationDaoImpl implements OrganizationDao {
@@ -38,10 +40,11 @@ public class OrganizationDaoImpl implements OrganizationDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Organization> findAll() {
-        logger.info("## Get all organizations : ");
-        CriteriaQuery<Organization> criteriaQuery = buildCriteriaAll();
+    public List<Organization> filterList(OrganizationFilter filter) {
+        logger.info("## DAO LAYER ## Get organizations by Filter(name,inn,isActive) : " + filter.name + " " + filter.inn + " " + filter.isActive);
+        CriteriaQuery<Organization> criteriaQuery = buildCriteriaFilterList(filter);
         TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get organizations by Filter : " + query.getResultList());
         return query.getResultList();
     }
 
@@ -50,32 +53,10 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization findById(Integer id) {
-        logger.info("## Get organization by ID : " + id);
+        logger.info("## DAO LAYER ## Get organization by ID : " + id);
         CriteriaQuery<Organization> criteriaQuery = buildCriteriaId(id);
         TypedQuery<Organization> query = em.createQuery(criteriaQuery);
-        return query.getSingleResult();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Organization> list(OrganizationFilter filter) {
-        logger.info("## Get organizations by Filter : " + filter.name  + " " + filter.inn + " " + filter.isActive);
-        CriteriaQuery<Organization> criteriaQuery = buildCriteriaFilterList(filter);
-        TypedQuery<Organization> query = em.createQuery(criteriaQuery);
-        logger.info("## Get organizations by Filter DAO LAYER : " + query.getResultList());
-        return query.getResultList();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Organization findByName(String name) {
-        logger.info("## Get organization by name : " + name);
-        CriteriaQuery<Organization> criteriaQuery = buildCriteriaName(name);
-        TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get organization by ID : " + query.getSingleResult());
         return query.getSingleResult();
     }
 
@@ -84,7 +65,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public void update(Organization organization) {
-        logger.info("## Update organization " + organization.toString());
+        logger.info("## DAO LAYER ## Update organization : " + organization.toString());
         em.merge(organization);
     }
 
@@ -93,22 +74,55 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public void save(Organization organization) {
-        logger.info("## Save organization :" + organization.toString());
+        logger.info("## DAO LAYER ## Save organization : " + organization.toString());
         em.persist(organization);
     }
 
-//    @Override
-//    public void delete(Long id) {
-//        Organization organization = em.find(Organization.class, id);
-//        logger.info("Organization deleted ID:" + id);
-//        em.remove(organization);
-//    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Organization> findAll() {
+        logger.info("## DAO LAYER ## Get all organizations : ");
+        CriteriaQuery<Organization> criteriaQuery = buildCriteriaAll();
+        TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get all organizations : " + query.getResultList());
+        return query.getResultList();
+    }
 
-    private CriteriaQuery<Organization> buildCriteriaAll() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Organization findByName(String name) {
+        logger.info("## DAO LAYER ## Get organization by name : " + name);
+        CriteriaQuery<Organization> criteriaQuery = buildCriteriaName(name);
+        TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get organization by name : " + query.getSingleResult());
+        return query.getSingleResult();
+    }
+
+    private CriteriaQuery<Organization> buildCriteriaFilterList(OrganizationFilter filter) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = criteriaBuilder.createQuery(Organization.class);
         Root<Organization> organizationRoot = criteriaQuery.from(Organization.class);
-        criteriaQuery.select(organizationRoot);
+
+        Predicate pName = criteriaBuilder.like(organizationRoot.get("name"), "%" + filter.name + "%");
+        Predicate pInn = criteriaBuilder.like(organizationRoot.get("inn"), "%" + filter.inn + "%");
+        Predicate pIsActive = criteriaBuilder.equal(organizationRoot.get("isActive"), filter.isActive);
+        List<Predicate> predicates = new ArrayList<>(3);
+        if (filter.name != null) {
+            predicates.add(pName);
+        } else {
+            return null;
+        }
+        if (filter.inn != null) {
+            predicates.add(pInn);
+        }
+        if (filter.isActive != null) {
+            predicates.add(pIsActive);
+        }
+        criteriaQuery.select(organizationRoot).where(predicates.toArray(new Predicate[]{}));
         return criteriaQuery;
     }
 
@@ -121,22 +135,11 @@ public class OrganizationDaoImpl implements OrganizationDao {
         return criteriaQuery;
     }
 
-    private CriteriaQuery<Organization> buildCriteriaFilterList(OrganizationFilter filter) {
+    private CriteriaQuery<Organization> buildCriteriaAll() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = criteriaBuilder.createQuery(Organization.class);
         Root<Organization> organizationRoot = criteriaQuery.from(Organization.class);
-
-        if (filter.name != null) {
-            criteriaQuery.where(criteriaBuilder.like(organizationRoot.get("name"), "%" + filter.name + "%"));
-        }
-        if (filter.inn != null) {
-            criteriaQuery.where(criteriaBuilder.like(organizationRoot.get("inn"), "%" + filter.inn + "%"));
-        }
-        if (filter.isActive != null) {
-            criteriaQuery.where(criteriaBuilder.like(organizationRoot.get("isActive"), "%" + filter.isActive + "%"));
-        }
         criteriaQuery.select(organizationRoot);
-
         return criteriaQuery;
     }
 

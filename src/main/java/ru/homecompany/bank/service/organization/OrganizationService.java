@@ -1,6 +1,5 @@
 package ru.homecompany.bank.service.organization;
 
-
 import ru.homecompany.bank.model.Organization;
 import ru.homecompany.bank.view.organization.OrganizationFilter;
 import ru.homecompany.bank.view.organization.OrganizationFilterView;
@@ -14,11 +13,12 @@ import java.util.List;
 public interface OrganizationService {
 
     /**
-     * Get list of organizations
+     * Get organizations by Filter (can be input first chars of a word)
      *
+     * @param filter NAME(not null), INN, KPP
      * @return {@Organizations}
      */
-    List<Organization> findAll();
+    List<OrganizationFilterView> findByFilter(OrganizationFilter filter);
 
     /**
      * Get organization by ID
@@ -28,9 +28,17 @@ public interface OrganizationService {
      */
     Organization findById(Integer id);
 
-    List<OrganizationFilterView> findByFilter(OrganizationFilter filter);
+    /**
+     * Update organization by ID
+     *
+     * @param view View of organization
+     */
+    void update(OrganizationView view);
 
-//    void update(OrganizationView organizationView);
-//
-//    void save(OrganizationView organizationView);
+    /**
+     * Save new organization and ID was AUTO INCREMENTED
+     *
+     * @param view View of organization
+     */
+    void save(OrganizationView view);
 }

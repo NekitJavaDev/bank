@@ -1,6 +1,5 @@
 package ru.homecompany.bank.dao;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,15 +28,23 @@ public class DocumentInfoDaoTest {
     @Autowired
     DocumentDao documentDao;
 
+    /**
+     * Testing all Country and Document methods from DAO layer
+     */
     @Test
     public void test() {
+        /*
+            Testing to find all list of countries
+         */
         List<Country> countries = countryDao.findAll();
         Assert.assertNotNull(countries);    //Assert.assertTrue(!countries.isEmpty());
         Assert.assertEquals(5, countries.size());
 
+        /*
+            Testing to find all list of countries
+         */
         List<Document> documents = documentDao.findAll();
         Assert.assertNotNull(documents);    //Assert.assertTrue(!documents.isEmpty());
         Assert.assertEquals(6, documents.size());
     }
-
 }

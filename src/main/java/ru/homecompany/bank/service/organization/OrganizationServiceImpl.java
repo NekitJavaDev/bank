@@ -1,14 +1,14 @@
 package ru.homecompany.bank.service.organization;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homecompany.bank.dao.organization.OrganizationDao;
 import ru.homecompany.bank.model.Organization;
 import ru.homecompany.bank.view.organization.OrganizationFilter;
 import ru.homecompany.bank.view.organization.OrganizationFilterView;
+import ru.homecompany.bank.view.organization.OrganizationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 
-    private final Logger logger = LoggerFactory.getLogger(OrganizationServiceImpl.class);
     private final OrganizationDao organizationDao;
 
     /**
@@ -36,28 +35,10 @@ public class OrganizationServiceImpl implements OrganizationService {
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = true)
-    public List<Organization> findAll() {
-        return organizationDao.findAll();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
-    public Organization findById(Integer id) {
-        return organizationDao.findById(id);
-    }
-
-    @Transactional
-    @Override
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public List<OrganizationFilterView> findByFilter(OrganizationFilter filter) {
-        List<Organization> organizations = organizationDao.list(filter);
-        if (!organizations.isEmpty()) {
-            logger.info("## SERVICE LAYER ORG 1: " + organizations.get(0).toString());
-        }
-        List<OrganizationFilterView> list = new ArrayList<>();
+        List<Organization> organizations = organizationDao.filterList(filter);
+        List<OrganizationFilterView> list = new ArrayList<>(10);
         for (int i = 0; i < organizations.size(); i++) {
             OrganizationFilterView viewList = new OrganizationFilterView();
             viewList.setId(organizations.get(i).getId());
@@ -68,31 +49,40 @@ public class OrganizationServiceImpl implements OrganizationService {
         return list;
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public void save(OrganizationView organizationView) {
-//        return organizationView;
-//    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+    public Organization findById(Integer id) {
+        return organizationDao.findById(id);
+    }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    @Transactional
-//    public void update(OrganizationView organizationView) {
-//        System.out.println(organizationView.toString());
-//        Integer id = organizationView.id;
-//        Organization organization = organizationDao.findById(id);
-//        mapperFacade.map(organizationView, organization);
-//        System.out.println(organization.toString());
-//        organizationDao.update(organization);
-//    }
-//
-//    @Override
-//    public void save(OrganizationView organizationView) {
-//
-//    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void update(OrganizationView view) {
+        Organization organization = findById(view.id);
+        organization.setName(view.name);
+        organization.setFullName(view.fullName);
+        organization.setInn(view.inn);
+        organization.setKpp(view.kpp);
+        organization.setAddress(view.address);
+        organization.setPhone(view.phone);
+        organization.setIsActive(view.isActive);
+        organizationDao.update(organization);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void save(OrganizationView view) {
+        Organization organization = new Organization(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+        organizationDao.save(organization);
+    }
 }
 

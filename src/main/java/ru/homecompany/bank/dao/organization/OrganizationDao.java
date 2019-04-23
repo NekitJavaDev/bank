@@ -6,16 +6,17 @@ import ru.homecompany.bank.view.organization.OrganizationFilter;
 import java.util.List;
 
 /**
- * DAO for working with organizations
+ * DAO for working with organizations by interacting with DATA BASE
  */
 public interface OrganizationDao {
 
     /**
-     * Get all organizations
+     * Get organizations by Filter (can be input first chars of a word)
      *
+     * @param filter NAME(not null), INN, KPP
      * @return {@Organizations}
      */
-    List<Organization> findAll();
+    List<Organization> filterList(OrganizationFilter filter);
 
     /**
      * Get organization by ID
@@ -26,12 +27,25 @@ public interface OrganizationDao {
     Organization findById(Integer id);
 
     /**
-     * Get organizations by Filter (can be input first chars of a word)
+     * Update organization by ID
      *
-     * @param filter NAME(not null), INN, KPP
+     * @param organization Organization
+     */
+    void update(Organization organization);
+
+    /**
+     * Save new organization and ID was AUTO INCREMENTED
+     *
+     * @param organization Organization
+     */
+    void save(Organization organization);
+
+    /**
+     * Get all organizations
+     *
      * @return {@Organizations}
      */
-    List<Organization> list(OrganizationFilter filter);
+    List<Organization> findAll();
 
     /**
      * Get organization by name
@@ -40,10 +54,4 @@ public interface OrganizationDao {
      * @return {@Organization}
      */
     Organization findByName(String name);
-
-    void update(Organization organization);
-
-    void save(Organization organization);
-
-
 }
