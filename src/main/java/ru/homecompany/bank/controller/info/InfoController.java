@@ -11,7 +11,6 @@ import ru.homecompany.bank.utils.ResponseDataView;
 import ru.homecompany.bank.utils.ResponseErrorView;
 
 import java.util.logging.Logger;
-//import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/api", produces = "application/json")
@@ -30,9 +29,9 @@ public class InfoController {
     @GetMapping("/countries")
     public MyResponse getListOfCountries() {
         try {
-            logger.info("## Get all countries : ");
+            logger.info("## CONTROLLER LAYER ## Get all countries : ");
             Object dataBody = countryService.findAll();
-            logger.info(dataBody.toString());
+            logger.info("## CONTROLLER LAYER ## " + dataBody.toString());
             return ResponseDataView.newCreator().setData(dataBody).create();
         } catch (Throwable e) {
             return ResponseErrorView.newCreator().setError(e.getMessage()).create();
@@ -42,9 +41,9 @@ public class InfoController {
     @GetMapping("/docs")
     public MyResponse getListOfDocuments() {
         try {
-            logger.info("## Get all documents : ");
+            logger.info("## CONTROLLER LAYER ## Get all documents : ");
             Object dataBody = documentService.findAll();
-            logger.info((dataBody).toString());
+            logger.info("## CONTROLLER LAYER ## " + dataBody.toString());
             return ResponseDataView.newCreator().setData(dataBody).create();
         } catch (Throwable e) {
             return ResponseErrorView.newCreator().setError(e.getMessage()).create();
