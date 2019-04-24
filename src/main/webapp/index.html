@@ -84,7 +84,8 @@
 <p>
     <i>If you want to find only by <strong>"inn"</strong> or <strong>"isActive"</strong> without <strong>"name"</strong>
         you need to make the field <strong>"name"</strong> empty as shown here: </i> <br/>
-    <mark style="background-color: #ef86ff"><code style="font-size: 110%">{"name":"","inn":"555","isActive":true}</code></mark>
+    <mark style="background-color: #ef86ff"><code style="font-size: 110%">{"name":"","inn":"555","isActive":true}</code>
+    </mark>
 </p>
 <ul>
     <li>"name":"",
@@ -149,7 +150,7 @@
     </li>
     <li>"phone":"",</li>
     <li>"isActive":""
-        <mark style="background-color: yellow">true or false</mark>
+        <mark style="background-color: yellow">//true or false</mark>
     </li>
     )
 </ul>
@@ -157,6 +158,11 @@
 <p>
     <ins>http://localhost:8888/api/office/list/{orgId}</ins>
     <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<p>
+    <i>If you want to find only by <strong>"orgId"</strong> without <strong>"name","phone","isActive"</strong>
+        you need to make the JSON string <strong>@RequestBody</strong> empty as shown here: </i> <br/>
+    <mark style="background-color: #ef86ff"><code style="font-size: 110%">{}</code></mark>
 </p>
 <ul>
     <li>"orgId":"",
@@ -170,6 +176,48 @@
     )
 </ul>
 
+<p>
+    <ins>http://localhost:8888/api/office/save</ins>
+    <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<ul>
+    <li>"orgId":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"name":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"address":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"phone":"",</li>
+    <li>"isActive":""
+        <mark style="background-color: yellow">//true or false</mark>
+    </li>
+    )
+</ul>
+
+<p>
+    <ins>http://localhost:8888/api/office/update</ins>
+    <i>(Send JSON string with filter IN parameters:</i>
+</p>
+<ul>
+    <li>"orgId":"",</li>
+    <li>"id":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"name":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"address":"",
+        <mark>//required parameter!!!</mark>
+    </li>
+    <li>"phone":"",</li>
+    <li>"isActive":""
+        <mark style="background-color: yellow">//true or false</mark>
+    </li>
+    )
+</ul>
 
 </body>
 </html>
