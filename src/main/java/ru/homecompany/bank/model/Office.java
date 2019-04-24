@@ -19,7 +19,7 @@ public class Office {
     private Integer version;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -81,14 +81,6 @@ public class Office {
         this.address = address;
         this.phone = phone;
         this.isActive = isActive;
-    }
-
-    public Office(String name) {
-        this.name = name;
-    }
-
-    public Office(Integer id) {
-        this.id = id;
     }
 
     /**
@@ -205,7 +197,7 @@ public class Office {
     public String toString() {
         return "{" +
                 "id='" + id + "\'" +
-                ", org_id='" + getOrganization().getId() + "\'" +
+                ", org_id='" + organization.getId() + "\'" +
                 ", name='" + name + "\'" +
                 ", address='" + address + "\'" +
                 ", phone='" + phone + "\'" +

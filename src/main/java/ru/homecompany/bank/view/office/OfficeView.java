@@ -1,31 +1,20 @@
 package ru.homecompany.bank.view.office;
 
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import ru.homecompany.bank.model.Organization;
 
 public class OfficeView {
 
-    @NotEmpty
     public Integer id;
 
-    @Size(max = 50)
-    @NotNull(message = "name can not be null")
     public String name;
 
-
-    @Size(max = 50)
-    @NotNull(message = "code can not be null")
     public String address;
 
-    @Size(max = 11)
     public String phone;
 
-    public Integer isActive;
+    public Boolean isActive;
 
-    @NotNull(message = "code can not be null")
-    public Integer orgId;
+    public Organization orgId;
 
     @Override
     public String toString() {

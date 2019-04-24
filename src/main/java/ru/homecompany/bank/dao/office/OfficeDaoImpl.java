@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.homecompany.bank.model.Office;
+import ru.homecompany.bank.view.office.OfficeFilter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,10 +40,13 @@ public class OfficeDaoImpl implements OfficeDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Office> findAll() {
-        logger.info("## Get all offices : ");
-        CriteriaQuery<Office> criteriaQuery = buildCriteriaAll();
+    public List<Office> filterList(Integer orgId, OfficeFilter filter) {
+        if (filter != null) {
+            logger.info("## DAO LAYER ## Get office by org ID and Filter parameters : " + orgId + " " + filter.name + " " + filter.isActive);
+        }
+        CriteriaQuery<Office> criteriaQuery = buildCriteriaFilterList(orgId, filter);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get office by org ID and Filter parameters : " + query.getResultList());
         return query.getResultList();
     }
 
@@ -49,9 +55,10 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public Office findById(Integer id) {
-        logger.info("## Get office by ID : " + id);
+        logger.info("## DAO LAYER ## Get office by ID : " + id);
         CriteriaQuery<Office> criteriaQuery = buildCriteriaId(id);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get office by ID : " + query.getSingleResult());
         return query.getSingleResult();
     }
 
@@ -59,10 +66,29 @@ public class OfficeDaoImpl implements OfficeDao {
      * {@inheritDoc}
      */
     @Override
+    public void update(Office office) {
+        logger.info("## DAO LAYER ## Update office : " + office.toString());
+        em.merge(office);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void save(Office office) {
+        logger.info("## DAO LAYER ## Save office : " + office.toString());
+        em.persist(office);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Office findByName(String name) {
-        logger.info("## Get office by name : " + name);
+        logger.info("## DAO LAYER ## Get office by name : " + name);
         CriteriaQuery<Office> criteriaQuery = buildCriteriaName(name);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get office by name : " + query.getSingleResult());
         return query.getSingleResult();
     }
 
@@ -71,9 +97,10 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public Office findByAddress(String address) {
-        logger.info("## Get office by address : " + address);
+        logger.info("## DAO LAYER ## Get office by address : " + address);
         CriteriaQuery<Office> criteriaQuery = buildCriteriaAddress(address);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get office by address : " + query.getSingleResult());
         return query.getSingleResult();
     }
 
@@ -81,45 +108,38 @@ public class OfficeDaoImpl implements OfficeDao {
      * {@inheritDoc}
      */
     @Override
-    public Office findByPhone(String phone) {
-        logger.info("## Get office by phone : " + phone);
-        CriteriaQuery<Office> criteriaQuery = buildCriteriaPhone(phone);
+    public List<Office> findAll() {
+        logger.info("## DAO LAYER ## Get all offices : ");
+        CriteriaQuery<Office> criteriaQuery = buildCriteriaAll();
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
-        return query.getSingleResult();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Office> findByIsActive(Boolean isActive) {
-        logger.info("## Get office by active status : " + isActive);
-        CriteriaQuery<Office> criteriaQuery = buildCriteriaIsActive(isActive);
-        TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        logger.info("## DAO LAYER ## Get all offices : " + query.getResultList());
         return query.getResultList();
     }
 
-//    @Override
-//    public List<Employee> loadAllEmployeesByOfficeId(Integer officeId) {
-//        CriteriaQuery<Employee> criteriaQuery = buildCriteriaAllEmployees(officeId);
-//        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-//        return query.getResultList();
-//    }
-//
-//    private CriteriaQuery<Employee> buildCriteriaAllEmployees(Integer officeId) {
-//        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//        CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
-//        Root<Employee> employee = criteriaQuery.from(Employee.class);
-//        criteriaQuery.where(criteriaBuilder.equal(employee.get("office"), officeId));
-//        criteriaQuery.select(employee);
-//        return criteriaQuery;
-//    }
-
-    private CriteriaQuery<Office> buildCriteriaAll() {
+    private CriteriaQuery<Office> buildCriteriaFilterList(Integer orgId, OfficeFilter filter) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
-        Root<Office> office = criteriaQuery.from(Office.class);
-        criteriaQuery.select(office);
+        Root<Office> officeRoot = criteriaQuery.from(Office.class);
+
+        List<Predicate> predicateList = new ArrayList<>(4);
+        Predicate pOrganization = criteriaBuilder.equal(officeRoot.get("organization").get("id"), orgId);
+        if (orgId == null) {
+            return null;
+        } else if (filter == null) {
+            predicateList.add(pOrganization);
+        } else {
+            if (filter.name != null) {
+                predicateList.add(criteriaBuilder.like(officeRoot.get("name"), "%" + filter.name + "%"));
+            }
+            if (filter.phone != null) {
+                predicateList.add(criteriaBuilder.like(officeRoot.get("phone"), "%" + filter.phone + "%"));
+            }
+            if (filter.isActive != null) {
+                predicateList.add(criteriaBuilder.equal(officeRoot.get("isActive"), filter.isActive));
+            }
+            predicateList.add(pOrganization);
+        }
+        criteriaQuery.select(officeRoot).distinct(true).where(predicateList.toArray(new Predicate[]{}));
         return criteriaQuery;
     }
 
@@ -150,20 +170,10 @@ public class OfficeDaoImpl implements OfficeDao {
         return criteriaQuery;
     }
 
-    private CriteriaQuery<Office> buildCriteriaPhone(String phone) {
+    private CriteriaQuery<Office> buildCriteriaAll() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
         Root<Office> office = criteriaQuery.from(Office.class);
-        criteriaQuery.where(criteriaBuilder.equal(office.get("phone"), phone));
-        criteriaQuery.select(office);
-        return criteriaQuery;
-    }
-
-    private CriteriaQuery<Office> buildCriteriaIsActive(Boolean isActive) {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
-        Root<Office> office = criteriaQuery.from(Office.class);
-        criteriaQuery.where(criteriaBuilder.equal(office.get("isActive"), isActive));
         criteriaQuery.select(office);
         return criteriaQuery;
     }

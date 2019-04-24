@@ -1,21 +1,24 @@
 package ru.homecompany.bank.dao.office;
 
-
 import ru.homecompany.bank.model.Office;
+import ru.homecompany.bank.view.office.OfficeFilter;
 
 import java.util.List;
 
 /**
- * DAO for working with offices
+ * DAO for working with offices by interacting with DATA BASE
  */
 public interface OfficeDao {
 
+
     /**
-     * Gets all offices
+     * Get office by organization ID and Filter parameters
      *
+     * @param orgId  Identifier
+     * @param filter Filter(name,phone and isActive)
      * @return {@Offices}
      */
-    List<Office> findAll();
+    List<Office> filterList(Integer orgId, OfficeFilter filter);
 
     /**
      * Get office by ID
@@ -26,7 +29,21 @@ public interface OfficeDao {
     Office findById(Integer id);
 
     /**
-     * Gets office by name
+     * Update office by ID
+     *
+     * @param office Office
+     */
+    void update(Office office);
+
+    /**
+     * Save new organization and ID was AUTO INCREMENTED
+     *
+     * @param office Office
+     */
+    void save(Office office);
+
+    /**
+     * Get office by name
      *
      * @param name Name
      * @return {@Office}
@@ -34,7 +51,7 @@ public interface OfficeDao {
     Office findByName(String name);
 
     /**
-     * Gets office by address
+     * Get office by address
      *
      * @param address Address
      * @return {@Office}
@@ -42,26 +59,9 @@ public interface OfficeDao {
     Office findByAddress(String address);
 
     /**
-     * Gets office by phone
+     * Get all offices
      *
-     * @param phone Work telephone
-     * @return {@Office}
+     * @return {@Offices}
      */
-    Office findByPhone(String phone);
-
-    /**
-     * Gets office by activity
-     *
-     * @param isActive Activity
-     * @return {@Office}
-     */
-    List<Office> findByIsActive(Boolean isActive);
-
-//    /**
-//     * Gets all employees by office ID
-//     *
-//     * @param officeId Office Identifier
-//     * @return {@Office}
-//     */
-//    List<Employee> loadAllEmployeesByOfficeId(Integer officeId);
+    List<Office> findAll();
 }
