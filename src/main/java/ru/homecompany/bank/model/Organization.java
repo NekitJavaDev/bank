@@ -40,13 +40,13 @@ public class Organization {
     @Column(name = "inn", length = 12, unique = true, nullable = false)
     private String inn;
 
-    @Column(name = "kpp", length = 9, unique = true, nullable = false)
+    @Column(name = "kpp", length = 9, nullable = false)
     private String kpp;
 
-    @Column(name = "address", length = 50, nullable = false)
+    @Column(name = "address", length = 50, unique = true, nullable = false)
     private String address;
 
-    @Column(name = "phone", length = 11)
+    @Column(name = "phone", length = 12, unique = true)
     private String phone;
 
     @Column(name = "is_active")
@@ -80,6 +80,8 @@ public class Organization {
         this.inn = inn;
         this.kpp = kpp;
         this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
     }
 
     /**
@@ -140,106 +142,84 @@ public class Organization {
     }
 
     /**
-     * Set taxpayer identification number of organization
-     * Max length of INN equals 12
+     * Set taxpayer identification number of organization. Max length of INN equals 12
      *
-     * @param inn Taxpayer identification number
+     * @param inn Taxpayer Identification Number
      */
     public void setInn(String inn) {
         this.inn = inn;
     }
 
     /**
-     * Return Reason Code in Federal Migration Service(may be not unique)
+     * Return reason code in Federal Migration Service(may be not unique)
      *
-     * @return kpp
+     * @return kpp Reason Code
      */
     public String getKpp() {
         return kpp;
     }
 
     /**
-     * Set kpp of organization
-     * Max length of KPP equals 9
+     * Set reason code of organization. Max length of KPP equals 9
      *
-     * @param kpp Reason Code
+     * @param kpp Unique Reason Code
      */
     public void setKpp(String kpp) {
         this.kpp = kpp;
     }
 
     /**
-     * Return address of organization
+     * Return unique address of organization
      *
-     * @return address
+     * @return address Unique Address
      */
     public String getAddress() {
         return address;
     }
 
     /**
-     * Set address of organization
-     * Max length of address equals 50
+     * Set address of organization. Max length of address equals 50
      *
-     * @param address address
+     * @param address Unique Address
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
     /**
-     * Return phone of organization
+     * Return work phone of organization
      *
-     * @return phone
+     * @return phone Unique Work Telephone
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Set phone of organization
-     * Max length of phone equals 11
+     * Set work phone of organization. Max length of phone equals 11
      *
-     * @param phone work telephone
+     * @param phone Unique Work Telephone
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * Return organization is active? true or false
+     * Return activity status of organization: true or false
      *
-     * @return isActive
+     * @return isActive Activity Status
      */
     public Boolean getIsActive() {
         return isActive;
     }
 
     /**
-     * Set organization is active?
+     * Set activity status of the organization
      *
-     * @param isActive Activity
+     * @param isActive Activity Status
      */
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
-    }
-
-    /**
-     * Return all offices of this organization
-     *
-     * @return offices
-     */
-    public List<Office> getOffices() {
-        return offices;
-    }
-
-    /**
-     * Set all offices of this organization
-     *
-     * @param offices Offices
-     */
-    public void setOffices(List<Office> offices) {
-        this.offices = offices;
     }
 
     @Override

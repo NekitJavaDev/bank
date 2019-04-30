@@ -31,17 +31,6 @@ public class Country {
     }
 
     /**
-     * Constructor of the class Country with 2 required parameters
-     *
-     * @param code unique code
-     * @param name name
-     */
-    public Country(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
-
-    /**
      * Return an unique code of the country
      *
      * @return unique code
@@ -83,8 +72,8 @@ public class Country {
     @Override
     public String toString() {
         return "{" +
-                "name='" + name + '\'' +
-                ", code='" + code + '\'' +
+                "code='" + code + '\'' +
+                ", name'" + name + '\'' +
                 '}';
     }
 }

@@ -30,17 +30,6 @@ public class Document {
     }
 
     /**
-     * Constructor of the class Document with 2 required parameters
-     *
-     * @param code unique code
-     * @param name name
-     */
-    public Document(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
-
-    /**
      * Return an unique code of the document
      *
      * @return unique code
@@ -81,8 +70,8 @@ public class Document {
     @Override
     public String toString() {
         return "{" +
-                "name='" + name + '\'' +
-                ", code='" + code + '\'' +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

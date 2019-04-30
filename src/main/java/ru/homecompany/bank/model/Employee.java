@@ -1,9 +1,19 @@
 package ru.homecompany.bank.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import java.util.Date;
 
 @Entity
@@ -16,11 +26,8 @@ public class Employee {
     @Version
     private Integer version;
 
-    /**
-     * Unique ID of employee
-     */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -29,42 +36,26 @@ public class Employee {
     @JoinColumn(name = "office_id")
     private Office office;
 
-    /**
-     * Name of employee
-     */
     @Column(name = "first_name", length = 20, nullable = false)
     private String firstName;
 
-    /**
-     * Lst name of employee
-     */
-    @Column(name = "second_name", length = 50, nullable = false)
+    @Column(name = "second_name", length = 50)
     private String secondName;
 
-    /**
-     * Middle name of employee
-     */
-    @Column(name = "middle_name", length = 25, nullable = true)
+    @Column(name = "middle_name", length = 25)
     private String middleName;
 
-    /**
-     * Position at the work
-     */
-    @Column(name = "position", length = 50, nullable = false)
+    @Column(name = "position", length = 40, nullable = false)
     private String position;
 
-    /**
-     * Cellular telephone of employee
-     */
-    @Column(name = "phone", length = 11, unique = true, nullable = true)
+    @Column(name = "phone", length = 12, unique = true)
     private String phone;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doc_code")
     private Document document;
 
-    @Column(name = "doc_number", length = 45, unique = true, nullable = false)
+    @Column(name = "doc_number", length = 45, unique = true)
     private String docNumber;
 
     @Column(name = "doc_date")
@@ -72,13 +63,13 @@ public class Employee {
     private Date docDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "citizenship_code", nullable = false)
+    @JoinColumn(name = "citizenship_code")
     private Country country;
 
     /**
      * Identify of employee
      */
-    @Column(name = "is_identified", nullable = true)
+    @Column(name = "is_identified")
     private Boolean isIdentified;
 
     /**
@@ -89,20 +80,6 @@ public class Employee {
     }
 
     public Employee(String firstName, String secondName, String middleName, String position, String phone, Document document, String docNumber, Date docDate, Country country, Boolean isIdentified) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.middleName = middleName;
-        this.position = position;
-        this.phone = phone;
-        this.document = document;
-        this.docNumber = docNumber;
-        this.docDate = docDate;
-        this.country = country;
-        this.isIdentified = isIdentified;
-    }
-
-    public Employee(Integer id, String firstName, String secondName, String middleName, String position, String phone, Document document, String docNumber, Date docDate, Country country, Boolean isIdentified) {
-        this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
         this.middleName = middleName;
@@ -275,7 +252,7 @@ public class Employee {
     @Override
     public String toString() {
         return "{" +
-                "id='" + id + '\'' +
+                " id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", middleName='" + middleName + '\'' +

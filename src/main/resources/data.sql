@@ -30,7 +30,7 @@ INSERT INTO employee (version, office_id, citizenship_code, doc_code, first_name
 INSERT INTO employee (version, office_id, citizenship_code, doc_code, first_name, second_name, middle_name, position, phone, doc_number, doc_date, is_identified ) VALUES
 (0, 2, 601, 21, 'Лариса', 'Максимова', 'Андреевна', 'секретарь', '89152228847', '2213 616660', '2014-10-13', FALSE);
 INSERT INTO employee (version, office_id, citizenship_code, doc_code, first_name, second_name, middle_name, position, phone, doc_number, doc_date, is_identified ) VALUES
-(0, 3, 601, 15, 'Борис', 'Мурин', 'директор', 'Алексеевич', '89997654473', '3244 772831', '2016-12-15', TRUE);
+(0, 3, 601, 15, 'Борис', 'Мурин', 'Антонович','директор', '89997654473', '3244 772831', '2016-12-15', TRUE);
 INSERT INTO employee (version, office_id, citizenship_code, doc_code, first_name, second_name, position, phone, doc_number, doc_date, is_identified ) VALUES
 (0, 4, 652, 10, 'Златан', 'Ларсен', 'водитель',  '89665234109', '55555 65', '2001-10-25', TRUE);
 INSERT INTO employee (version, office_id, citizenship_code, doc_code, first_name, second_name, middle_name, position, phone, doc_number, doc_date, is_identified ) VALUES

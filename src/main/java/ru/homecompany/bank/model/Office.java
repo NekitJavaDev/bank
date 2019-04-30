@@ -2,7 +2,18 @@ package ru.homecompany.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import java.util.List;
 
 /**
@@ -29,10 +40,10 @@ public class Office {
     @Column(name = "address", length = 50, nullable = false)
     private String address;
 
-    @Column(name = "phone", length = 11, unique = true, nullable = false)
+    @Column(name = "phone", length = 12, unique = true)
     private String phone;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @JsonIgnore
@@ -67,45 +78,28 @@ public class Office {
     }
 
     /**
-     * Constructor of class Office with 5 required parameters
+     * Return unique ID of office
      *
-     * @param id       identifier
-     * @param name     Name
-     * @param address  Address
-     * @param phone    Work Telephone
-     * @param isActive Activity
-     */
-    public Office(Integer id, String name, String address, String phone, Boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.isActive = isActive;
-    }
-
-    /**
-     * Returns unique ID of office
-     *
-     * @return id of office
+     * @return id Identifier
      */
     public Integer getId() {
         return id;
     }
 
-    //    /**
-//     * Returns ID of organization
-//     *
-//     * @return id of organization
-//     */
+    /**
+     * Return ID of organization
+     *
+     * @return organization Organization
+     */
     public Organization getOrganization() {
         return organization;
     }
 
-    //    /**
-//     * Sets ID of the office
-//     *
-//     * @param orgId id of the office
-//     */
+    /**
+     * Set ORG_ID of the office
+     *
+     * @param organization ID of Organization
+     */
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
@@ -113,17 +107,16 @@ public class Office {
     /**
      * Return unique name of the office
      *
-     * @return unique name
+     * @return name Unique Name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set unique name of the office
-     * Max length of name equals 50
+     * Set unique name of the office. Max length equals 50
      *
-     * @param name unique name
+     * @param name Unique Name
      */
     public void setName(String name) {
         this.name = name;
@@ -132,17 +125,16 @@ public class Office {
     /**
      * Return address of the office
      *
-     * @return address
+     * @return address Unique Address
      */
     public String getAddress() {
         return address;
     }
 
     /**
-     * Set address of the office
-     * Max length of address equals 50
+     * Set address of the office. Max length equals 50
      *
-     * @param address unique address
+     * @param address Unique Address
      */
     public void setAddress(String address) {
         this.address = address;
@@ -151,46 +143,37 @@ public class Office {
     /**
      * Return phone of the office
      *
-     * @return phone
+     * @return phone Unique number of Work Telephone
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Set phone of the office
-     * Max length of phone equals 11
+     * Set phone of the office. Max length equals 11
      *
-     * @param phone unique phone
+     * @param phone Unique Work Telephone
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * Return dynamical of the office: true or false
+     * Return activity status of the office: true or false
      *
-     * @return dynamical
+     * @return isActive Activity Status
      */
     public Boolean getIsActive() {
         return isActive;
     }
 
     /**
-     * Set isActive(dynamical) of the office
+     * Set activity status of the office
      *
-     * @param isActive
+     * @param isActive Activity Status
      */
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
     }
 
     @Override
