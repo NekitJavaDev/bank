@@ -10,13 +10,12 @@ import java.util.List;
  */
 public interface OfficeDao {
 
-
     /**
      * Get office by organization ID and Filter parameters
      *
      * @param orgId  Identifier
      * @param filter Filter(name,phone and isActive)
-     * @return {@Offices}
+     * @return @Offices
      */
     List<Office> filterList(Integer orgId, OfficeFilter filter);
 
@@ -24,7 +23,7 @@ public interface OfficeDao {
      * Get office by ID
      *
      * @param id Identifier
-     * @return {@Office}
+     * @return @Office
      */
     Office findById(Integer id);
 
@@ -36,7 +35,7 @@ public interface OfficeDao {
     void update(Office office);
 
     /**
-     * Save new organization and ID was AUTO INCREMENTED
+     * Save new office and ID was AUTO INCREMENTED
      *
      * @param office Office
      */
@@ -46,7 +45,7 @@ public interface OfficeDao {
      * Get office by name
      *
      * @param name Name
-     * @return {@Office}
+     * @return @Office
      */
     Office findByName(String name);
 
@@ -54,14 +53,14 @@ public interface OfficeDao {
      * Get office by address
      *
      * @param address Address
-     * @return {@Office}
+     * @return @Office
      */
     Office findByAddress(String address);
 
     /**
      * Get all offices
      *
-     * @return {@Offices}
+     * @return @Offices
      */
     List<Office> findAll();
 }

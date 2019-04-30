@@ -1,5 +1,6 @@
 package ru.homecompany.bank.service.organization;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -37,6 +38,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public List<OrganizationFilterView> findByFilter(OrganizationFilter filter) {
+        if (filter == null || filter.name == null) {
+            throw new ServiceException("You sent empty JSON or forgot required parameter: 'name' ");
+        }
         List<Organization> organizations = organizationDao.filterList(filter);
         List<OrganizationFilterView> list = new ArrayList<>(10);
         for (int i = 0; i < organizations.size(); i++) {
@@ -55,7 +59,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public Organization findById(Integer id) {
-        return organizationDao.findById(id);
+        Organization organization = organizationDao.findById(id);
+        if (organization == null) {
+            throw new ServiceException("Organization with ID: " + id + " doesn't exist");
+        } else {
+            return organization;
+        }
     }
 
     /**
@@ -64,14 +73,21 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void update(OrganizationView view) {
+        if (view.id == null || view.id.toString().isEmpty()) {
+            throw new ServiceException("Cannot update organization with empty or null ID");
+        }
         Organization organization = findById(view.id);
         organization.setName(view.name);
         organization.setFullName(view.fullName);
         organization.setInn(view.inn);
         organization.setKpp(view.kpp);
         organization.setAddress(view.address);
-        organization.setPhone(view.phone);
-        organization.setIsActive(view.isActive);
+        if (view.phone != null) {
+            organization.setPhone(view.phone);
+        }
+        if (view.isActive != null) {
+            organization.setIsActive(view.isActive);
+        }
         organizationDao.update(organization);
     }
 

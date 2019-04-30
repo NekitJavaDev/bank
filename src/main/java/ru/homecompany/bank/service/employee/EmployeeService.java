@@ -2,12 +2,24 @@ package ru.homecompany.bank.service.employee;
 
 
 import ru.homecompany.bank.model.Employee;
+import ru.homecompany.bank.view.employee.EmployeeFilter;
+import ru.homecompany.bank.view.employee.EmployeeFilterView;
+import ru.homecompany.bank.view.employee.EmployeeView;
+
+import java.util.List;
 
 /**
  * Service
  */
 public interface EmployeeService {
 
+    /**
+     * Get employees by Filter
+     *
+     * @param filter Filter(JSON string)
+     * @return {@Employees}
+     */
+    List<EmployeeFilterView> findByFilter(EmployeeFilter filter);
 
     /**
      * Get employee by ID
@@ -17,4 +29,17 @@ public interface EmployeeService {
      */
     Employee findById(Integer id);
 
+    /**
+     * Update employee by ID
+     *
+     * @param view View of employee
+     */
+    void update(EmployeeView view);
+
+    /**
+     * Save new employee and his ID was AUTO INCREMENTED
+     *
+     * @param view View of employee
+     */
+    void save(EmployeeView view);
 }

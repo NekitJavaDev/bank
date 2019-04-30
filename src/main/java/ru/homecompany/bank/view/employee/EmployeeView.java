@@ -1,70 +1,54 @@
 package ru.homecompany.bank.view.employee;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import ru.homecompany.bank.model.Country;
+import ru.homecompany.bank.model.Document;
+import ru.homecompany.bank.model.Office;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.util.Date;
 
 public class EmployeeView {
 
-    @NotNull(message = "unique identifier can not be null")
+    public Office office;
+
     public Integer id;
 
-    @NotNull
-    public Integer officeId;
-
-    public Integer countryId;
-
-    public Integer documentId;
-
-    @Size(max = 20)
-    @NotEmpty(message = "first name of employee can not be null")
     public String firstName;
 
-    @Size(max = 50)
     public String secondName;
 
-    @Size(max = 25)
     public String middleName;
 
-    @Size(max = 50)
-    @NotEmpty(message = "position can not be null")
     public String position;
 
-    @Size(max = 11)
     public String phone;
 
-    public Boolean isIdentified;
+    //    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Document document;
 
-    @Size(max = 50)
-    public String docName;
-
-    @Size(max = 20)
     public String docNumber;
 
     public Date docDate;
 
-    @Size(max = 50)
-    public String citizenshipName;
+    //    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Country country;
 
-    @Size(max = 3)
-    public String citizenshipCode;
+    public Boolean isIdentified;
 
     @Override
     public String toString() {
         return "{\n" +
+                " \"officeId\":" + "\"" + office + "\",\n" +
                 " \"id\":" + "\"" + id + "\",\n" +
                 " \"firstName\":" + "\"" + firstName + "\",\n" +
                 " \"secondName\":" + "\"" + secondName + "\",\n" +
                 " \"middleName\":" + "\"" + middleName + "\"\n" +
                 " \"position\":" + "\"" + position + "\"\n" +
                 " \"phone\":" + "\"" + phone + "\"\n" +
-                " \"docName\":" + "\"" + docName + "\"\n" +
+                " \"docName\":" + "\"" + document + "\"\n" +
                 " \"docNumber\":" + "\"" + docNumber + "\"\n" +
                 " \"docDate\":" + "\"" + docDate + "\"\n" +
-                " \"citizenshipName\":" + "\"" + citizenshipName + "\"\n" +
-                " \"citizenshipCode\":" + "\"" + citizenshipCode + "\"\n" +
+                " \"citizenshipCode\":" + "\"" + country + "\"\n" +
                 " \"isIdentified\":" + "\"" + isIdentified + "\"\n" +
                 "}";
     }

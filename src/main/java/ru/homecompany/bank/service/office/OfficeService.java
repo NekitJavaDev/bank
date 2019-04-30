@@ -1,15 +1,18 @@
 package ru.homecompany.bank.service.office;
 
+import org.springframework.validation.annotation.Validated;
 import ru.homecompany.bank.model.Office;
 import ru.homecompany.bank.view.office.OfficeFilter;
 import ru.homecompany.bank.view.office.OfficeFilterView;
 import ru.homecompany.bank.view.office.OfficeView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
  * Service
  */
+@Validated
 public interface OfficeService {
 
     /**
@@ -17,15 +20,15 @@ public interface OfficeService {
      *
      * @param orgId  Identifier of office's organization (not null)
      * @param filter name, phone, isActive
-     * @return {@Offices}
+     * @return @Offices
      */
-    List<OfficeFilterView> findByFilter(Integer orgId, OfficeFilter filter);
+    List<OfficeFilterView> findByFilter(Integer orgId, @Valid OfficeFilter filter);
 
     /**
      * Get office by ID
      *
      * @param id Identifier
-     * @return {@Office}
+     * @return @Office
      */
     Office findById(Integer id);
 
@@ -34,12 +37,12 @@ public interface OfficeService {
      *
      * @param view View of office
      */
-    void update(OfficeView view);
+    void update(@Valid OfficeView view);
 
     /**
      * Save new office and ID was AUTO INCREMENTED
      *
      * @param view View of office
      */
-    void save(OfficeView view);
+    void save(@Valid OfficeView view);
 }

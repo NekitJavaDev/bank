@@ -37,7 +37,6 @@ public class OrganizationController {
                 return ResponseErrorView.newCreator().setError(e.getMessage()).create();
             }
         }
-
     }
 
     @GetMapping("/{id:[\\d]+}")

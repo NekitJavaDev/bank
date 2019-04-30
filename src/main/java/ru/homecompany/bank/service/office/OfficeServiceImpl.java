@@ -1,11 +1,14 @@
 package ru.homecompany.bank.service.office;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homecompany.bank.dao.office.OfficeDao;
+import ru.homecompany.bank.dao.organization.OrganizationDao;
 import ru.homecompany.bank.model.Office;
+import ru.homecompany.bank.model.Organization;
 import ru.homecompany.bank.view.office.OfficeFilter;
 import ru.homecompany.bank.view.office.OfficeFilterView;
 import ru.homecompany.bank.view.office.OfficeView;
@@ -21,9 +24,12 @@ public class OfficeServiceImpl implements OfficeService {
 
     private OfficeDao officeDao;
 
+    private OrganizationDao organizationDao;
+
     @Autowired
-    public OfficeServiceImpl(OfficeDao officeDao) {
+    public OfficeServiceImpl(OfficeDao officeDao, OrganizationDao organizationDao) {
         this.officeDao = officeDao;
+        this.organizationDao = organizationDao;
     }
 
     /**
@@ -59,13 +65,21 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void update(OfficeView view) {
+        if (view.id == null || view.id.toString().isEmpty()) {
+            throw new ServiceException("Cannot update organization with empty or null ID");
+        }
+        Organization organization = organizationDao.findById(view.orgId);
         Office office = officeDao.findById(view.id);
         if (office != null) {
-            office.setOrganization(view.orgId);
+            office.setOrganization(organization);
             office.setName(view.name);
             office.setAddress(view.address);
-            office.setPhone(view.phone);
-            office.setIsActive(view.isActive);
+            if (view.phone != null) {
+                office.setPhone(view.phone);
+            }
+            if (view.isActive != null) {
+                office.setIsActive(view.isActive);
+            }
             officeDao.update(office);
         }
     }
@@ -77,7 +91,8 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void save(OfficeView view) {
         Office office = new Office(view.name, view.address, view.phone, view.isActive);
-        office.setOrganization(view.orgId);
+        Organization organization = organizationDao.findById(view.orgId);
+        office.setOrganization(organization);
         officeDao.save(office);
     }
 }

@@ -56,6 +56,9 @@ public class OrganizationDaoImpl implements OrganizationDao {
         logger.info("## DAO LAYER ## Get organization by ID : " + id);
         CriteriaQuery<Organization> criteriaQuery = buildCriteriaId(id);
         TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get organization by ID : " + query.getSingleResult());
         return query.getSingleResult();
     }
