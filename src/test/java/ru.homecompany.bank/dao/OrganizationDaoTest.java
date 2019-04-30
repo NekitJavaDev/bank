@@ -29,6 +29,7 @@ public class OrganizationDaoTest {
      */
     @Test
     public void test() {
+
         /*
          * Testing to find all list of organizations
          */
@@ -36,10 +37,16 @@ public class OrganizationDaoTest {
         Assert.assertNotNull(organizations);    //Assert.assertTrue(!organizations.isEmpty());
         Assert.assertEquals(2, organizations.size());
 
+        /*
+         * Testing to find organization by name
+         */
         Organization organization = organizationDao.findByName("ПАО \"Газпром\"");
         Assert.assertNotNull(organization);
         Assert.assertEquals(1, organization.getId().longValue());
 
+        /*
+         * Testing to find organization by ID
+         */
         organization = organizationDao.findById(2);
         Assert.assertNotNull(organization);
         Assert.assertFalse(organization.getIsActive());
@@ -69,7 +76,7 @@ public class OrganizationDaoTest {
         Assert.assertEquals(3, organizationDao.findByName("Bell Integrator").getId().longValue());
 
         /*
-         * Testing to find Organization by Filter
+         * Testing to find Organization by Filter: NAME + INN
          */
         OrganizationFilter filter = new OrganizationFilter();
         filter.name = "Газ";
@@ -83,7 +90,7 @@ public class OrganizationDaoTest {
         }
         Assert.assertEquals(1, countOrganizationsByFilter);
         /*
-         * Testing to find Organization by Filter ACTIVITY (name isn't equals NULL but is EMPTY
+         * Testing to find Organization by Filter: ACTIVITY (name isn't equals NULL but is EMPTY
          */
         OrganizationFilter filter1 = new OrganizationFilter();
         filter1.name = "";  //find all organization(without filter name)
