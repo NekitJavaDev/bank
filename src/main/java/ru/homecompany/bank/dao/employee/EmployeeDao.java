@@ -1,59 +1,65 @@
 package ru.homecompany.bank.dao.employee;
 
-
 import ru.homecompany.bank.model.Employee;
+import ru.homecompany.bank.view.employee.EmployeeFilter;
 
 import java.util.List;
 
 /**
- * DAO for working with employees
+ * DAO for working with employees by interacting with DATA BASE
  */
 public interface EmployeeDao {
 
     /**
-     * Get all employees
+     * Get employees by Filter
      *
-     * @return {@Employees}
+     * @param filter Filter(JSON string)
+     * @return @Employees
      */
-    List<Employee> findAll();
+    List<Employee> findByFilter(EmployeeFilter filter);
 
     /**
      * Get employee by ID
      *
-     * @param id
+     * @param id Identifier
      * @return @Employee
      */
     Employee findById(Integer id);
-//
-//    /**
-//     * Get employees by his first name
-//     *
-//     * @param firstName
-//     * @return {@Employee}
-//     */
-//    List<Employee> findByFirstName(String firstName);
-//
-//    /**
-//     * Get employees by his position at work
-//     *
-//     * @param position
-//     * @return {@Employee}
-//     */
-//    List<Employee> findByPosition(String position);
-//
-//    /**
-//     * Get an employee by his identity document ID
-//     *
-//     * @param documentId
-//     * @return {@Employee}
-//     */
-//    Employee findByDocumentId(Integer documentId);
-//
-//    /**
-//     * Get employees by info where they born
-//     *
-//     * @param countryId
-//     * @return {@Employee}
-//     */
-//    List<Employee> findByCountryId(Integer countryId);
+
+    /**
+     * Update employee by ID
+     *
+     * @param employee Entity of employee
+     */
+    void update(Employee employee);
+
+    /**
+     * Save new employee and his ID was AUTO INCREMENTED
+     *
+     * @param employee Entity of employee
+     */
+    void save(Employee employee);
+
+    /**
+     * Get all employees
+     *
+     * @return @Employees
+     */
+    List<Employee> findAll();
+
+    /**
+     * Get employees by his first name
+     *
+     * @param firstName Name
+     * @return @Employees
+     */
+    List<Employee> findByFirstName(String firstName);
+
+    /**
+     * Get employees by his position at work
+     *
+     * @param position Position
+     * @return @Employees
+     */
+    List<Employee> findByPosition(String position);
 }

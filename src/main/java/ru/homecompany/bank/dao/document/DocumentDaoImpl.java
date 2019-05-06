@@ -11,9 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implementation of repository DocumentDao
@@ -46,11 +44,48 @@ public class DocumentDaoImpl implements DocumentDao {
         return query.getResultList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Document findByCode(String code) {
+        CriteriaQuery<Document> criteriaQuery = buildCriteriaCode(code);
+        TypedQuery<Document> query = em.createQuery(criteriaQuery);
+        return query.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Document findByName(String name) {
+        CriteriaQuery<Document> criteriaQuery = buildCriteriaName(name);
+        TypedQuery<Document> query = em.createQuery(criteriaQuery);
+        return query.getSingleResult();
+    }
 
     private CriteriaQuery<Document> buildCriteriaAll() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Document> criteriaQuery = criteriaBuilder.createQuery(Document.class);
         Root<Document> documentRoot = criteriaQuery.from(Document.class);
+        criteriaQuery.select(documentRoot);
+        return criteriaQuery;
+    }
+
+    private CriteriaQuery<Document> buildCriteriaCode(String code) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Document> criteriaQuery = criteriaBuilder.createQuery(Document.class);
+        Root<Document> documentRoot = criteriaQuery.from(Document.class);
+        criteriaQuery.where(criteriaBuilder.equal(documentRoot.get("code"), code));
+        criteriaQuery.select(documentRoot);
+        return criteriaQuery;
+    }
+
+    private CriteriaQuery<Document> buildCriteriaName(String name) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Document> criteriaQuery = criteriaBuilder.createQuery(Document.class);
+        Root<Document> documentRoot = criteriaQuery.from(Document.class);
+        criteriaQuery.where(criteriaBuilder.equal(documentRoot.get("name"), name));
         criteriaQuery.select(documentRoot);
         return criteriaQuery;
     }

@@ -39,6 +39,9 @@ public class DocumentInfoDaoTest {
         List<Country> countries = countryDao.findAll();
         Assert.assertNotNull(countries);    //Assert.assertTrue(!countries.isEmpty());
         Assert.assertEquals(5, countries.size());
+        for (Country c : countries) {
+            System.out.println(c.toString());
+        }
 
         /*
             Testing to find all list of countries
@@ -46,5 +49,28 @@ public class DocumentInfoDaoTest {
         List<Document> documents = documentDao.findAll();
         Assert.assertNotNull(documents);    //Assert.assertTrue(!documents.isEmpty());
         Assert.assertEquals(6, documents.size());
+        for (Document doc : documents) {
+            System.out.println(doc.toString());
+        }
+
+        /*
+            Testing to find document by code and name
+         */
+        Document documentName = documentDao.findByName("Водительское удостоверение РФ");
+        Document documentCode = documentDao.findByCode(String.valueOf(21));
+        Assert.assertNotNull(documentName);
+        Assert.assertEquals(44, Long.parseLong(documentName.getCode()));
+        Assert.assertNotNull(documentCode);
+        Assert.assertEquals("Паспорт гражданина РФ", documentCode.getName());
+
+        /*
+            Testing to find document by code and name
+         */
+        Country countryName = countryDao.findByName("Португалия");
+        Country countryCode = countryDao.findByCode(String.valueOf(601));
+        Assert.assertNotNull(countryName);
+        Assert.assertEquals(703, Long.parseLong(countryName.getCode()));
+        Assert.assertNotNull(countryCode);
+        Assert.assertEquals("Российская Федерация", countryCode.getName());
     }
 }

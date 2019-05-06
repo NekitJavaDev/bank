@@ -44,10 +44,48 @@ public class CountryDaoImpl implements CountryDao {
         return query.getResultList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Country findByCode(String code) {
+        CriteriaQuery<Country> criteriaQuery = buildCriteriaCode(code);
+        TypedQuery<Country> query = em.createQuery(criteriaQuery);
+        return query.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Country findByName(String name) {
+        CriteriaQuery<Country> criteriaQuery = buildCriteriaName(name);
+        TypedQuery<Country> query = em.createQuery(criteriaQuery);
+        return query.getSingleResult();
+    }
+
     private CriteriaQuery<Country> buildCriteriaAll() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Country> criteriaQuery = criteriaBuilder.createQuery(Country.class);
         Root<Country> countryRoot = criteriaQuery.from(Country.class);
+        criteriaQuery.select(countryRoot);
+        return criteriaQuery;
+    }
+
+    private CriteriaQuery<Country> buildCriteriaCode(String code) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Country> criteriaQuery = criteriaBuilder.createQuery(Country.class);
+        Root<Country> countryRoot = criteriaQuery.from(Country.class);
+        criteriaQuery.where(criteriaBuilder.equal(countryRoot.get("code"), code));
+        criteriaQuery.select(countryRoot);
+        return criteriaQuery;
+    }
+
+    private CriteriaQuery<Country> buildCriteriaName(String name) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Country> criteriaQuery = criteriaBuilder.createQuery(Country.class);
+        Root<Country> countryRoot = criteriaQuery.from(Country.class);
+        criteriaQuery.where(criteriaBuilder.equal(countryRoot.get("name"), name));
         criteriaQuery.select(countryRoot);
         return criteriaQuery;
     }

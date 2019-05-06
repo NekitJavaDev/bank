@@ -43,7 +43,7 @@ public class OfficeDaoTest {
         int count = 0;
         for (Office office : all) {
             count++;
-            System.out.println(office);
+            System.out.println(office.toString());
         }
         Assert.assertEquals(4, count);
 
@@ -71,7 +71,7 @@ public class OfficeDaoTest {
         count = 0;
         for (Office office : tmpAll) {
             count++;
-            System.out.println(office);
+            System.out.println(office.toString());
         }
         Assert.assertEquals(5, count);
 
@@ -89,7 +89,7 @@ public class OfficeDaoTest {
         count = 0;
         for (Office office : tmp1All) {
             count++;
-            System.out.println(office);
+            System.out.println(office.toString());
         }
         Assert.assertEquals(5, count);
         Assert.assertEquals("Офис 555333", officeDao.findById(5).getName());
@@ -102,7 +102,7 @@ public class OfficeDaoTest {
         count = 0;
         for (Office office : pathValueOffices) {
             count++;
-            System.out.println(office);
+            System.out.println(office.toString());
         }
         Assert.assertEquals(3, count);
 
@@ -116,7 +116,7 @@ public class OfficeDaoTest {
         count = 0;
         for (Office office : nameParamOffices) {
             count++;
-            System.out.println(office);
+            System.out.println(office.toString());
         }
         Assert.assertNotNull(nameParamOffices);
         Assert.assertEquals(1, count);
@@ -132,7 +132,7 @@ public class OfficeDaoTest {
         count = 0;
         for (Office office : isActiveParamOffices) {
             count++;
-            System.out.println(office);
+            System.out.println(office.toString());
         }
         Assert.assertNotNull(isActiveParamOffices);
         Assert.assertEquals(2, count);
