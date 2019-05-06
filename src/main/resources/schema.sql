@@ -87,3 +87,4 @@ CREATE INDEX IX_Employee_MiddleName on employee (middle_name);
 CREATE INDEX IX_Employee_Position on employee (position);
 ALTER TABLE employee ADD UNIQUE (phone);
 ALTER TABLE employee ADD UNIQUE (doc_number);
+ALTER TABLE employee ADD UNIQUE (first_name, second_name);
