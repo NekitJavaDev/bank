@@ -39,7 +39,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public List<OrganizationFilterView> findByFilter(OrganizationFilter filter) {
         if (filter == null || filter.name == null) {
-            throw new ServiceException("You sent empty JSON or forgot required parameter: 'name' ");
+            throw new ServiceException("Empty JSON row or missed required parameter: 'name'");
         }
         List<Organization> organizations = organizationDao.filterList(filter);
         List<OrganizationFilterView> list = new ArrayList<>(10);

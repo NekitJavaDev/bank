@@ -39,12 +39,15 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public List<OfficeFilterView> findByFilter(Integer orgId, OfficeFilter filter) {
         List<Office> offices = officeDao.filterList(orgId, filter);
+        if (orgId == null) {
+            throw new ServiceException("Missed required parameter: 'orgId'");
+        }
         List<OfficeFilterView> list = new ArrayList<>(6);
-        for (int i = 0; i < offices.size(); i++) {
+        for (Office office : offices) {
             OfficeFilterView viewList = new OfficeFilterView();
-            viewList.setId(offices.get(i).getId());
-            viewList.setName(offices.get(i).getName());
-            viewList.setActive(offices.get(i).getIsActive());
+            viewList.setId(office.getId());
+            viewList.setName(office.getName());
+            viewList.setActive(office.getIsActive());
             list.add(viewList);
         }
         return list;
@@ -56,7 +59,12 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public Office findById(Integer id) {
-        return officeDao.findById(id);
+        Office office = officeDao.findById(id);
+        if (office == null) {
+            throw new ServiceException("Office with ID: " + id + " doesn't exist");
+        } else {
+            return office;
+        }
     }
 
     /**
@@ -66,12 +74,14 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void update(OfficeView view) {
         if (view.id == null || view.id.toString().isEmpty()) {
-            throw new ServiceException("Cannot update organization with empty or null ID");
+            throw new ServiceException("Cannot update office with empty or null ID");
         }
-        Organization organization = organizationDao.findById(view.orgId);
         Office office = officeDao.findById(view.id);
         if (office != null) {
-            office.setOrganization(organization);
+            if (view.orgId != null) {
+                Organization organization = organizationDao.findById(view.orgId);
+                office.setOrganization(organization);
+            }
             office.setName(view.name);
             office.setAddress(view.address);
             if (view.phone != null) {
@@ -91,8 +101,12 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void save(OfficeView view) {
         Office office = new Office(view.name, view.address, view.phone, view.isActive);
-        Organization organization = organizationDao.findById(view.orgId);
-        office.setOrganization(organization);
+        if (view.orgId != null) {
+            Organization organization = organizationDao.findById(view.orgId);
+            office.setOrganization(organization);
+        } else {
+            throw new ServiceException("Cannot save office with empty or null orgId");
+        }
         officeDao.save(office);
     }
 }

@@ -33,6 +33,5 @@ public class CountryServiceImpl implements CountryService {
     @Transactional(readOnly = true)
     public List<Country> findAll() {
         return countryDao.findAll();
-
     }
 }
