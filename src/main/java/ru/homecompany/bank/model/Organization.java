@@ -34,7 +34,7 @@ public class Organization {
     @Column(name = "name", length = 25, unique = true, nullable = false)
     private String name;
 
-    @Column(name = "full_name", length = 50, unique = true, nullable = false)
+    @Column(name = "full_name", length = 60, unique = true, nullable = false)
     private String fullName;
 
     @Column(name = "inn", length = 12, unique = true, nullable = false)

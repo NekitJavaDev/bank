@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS organization
   version   INTEGER     NOT NULL,
   id        INTEGER COMMENT 'Идентификатор' PRIMARY KEY AUTO_INCREMENT,
   name      VARCHAR(25) NOT NULL COMMENT 'Сокращенное название',
-  full_name VARCHAR(50) NOT NULL COMMENT 'Полное название',
+  full_name VARCHAR(60) NOT NULL COMMENT 'Полное название',
   inn       VARCHAR(12) NOT NULL COMMENT 'ИНН',
   kpp       VARCHAR(9)  NOT NULL COMMENT 'КПП',
   address   VARCHAR(50) NOT NULL COMMENT 'Адресс',

@@ -92,6 +92,30 @@ public class Employee {
         this.isIdentified = isIdentified;
     }
 
+    // TODO: 11.06.2019 constructor to OR for .ниже 
+    /**
+     * Constructor to save(add) new Employee
+     *
+     * @param firstName
+     * @param secondName
+     * @param middleName
+     * @param position
+     * @param phone
+     * @param docNumber
+     * @param docDate
+     * @param isIdentified
+     */
+    public Employee(String firstName, String secondName, String middleName, String position, String phone, String docNumber, Date docDate, Boolean isIdentified) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.middleName = middleName;
+        this.position = position;
+        this.phone = phone;
+        this.docNumber = docNumber;
+        this.docDate = docDate;
+        this.isIdentified = isIdentified;
+    }
+
     /**
      * Return unique ID of employee
      *
@@ -259,11 +283,38 @@ public class Employee {
                 ", position='" + position + '\'' +
                 ", phone='" + phone + '\'' +
                 ", docName='" + document.getName() + '\'' +
+                ", docCode='" + document.getName() + '\'' +
                 ", docNumber='" + docNumber + '\'' +
                 ", docDate='" + docDate + '\'' +
                 ", citizenshipName='" + country.getName() + '\'' +
                 ", citizenshipCode='" + country.getCode() + '\'' +
                 ", isIdentified='" + isIdentified + '\'' +
                 '}';
+    }
+
+    public String toStringWhenSave() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("{ id=").append(getId()).append(",");
+        sb.append(" firstName=").append(getFirstName()).append(",");
+        sb.append(" secondName=").append(getSecondName()).append(",");
+        sb.append(" middleName=").append(getMiddleName()).append(",");
+        sb.append(" position=").append(getPosition()).append(",");
+        sb.append(" phone=").append(getPhone()).append(",");
+        if(document!=null){
+            sb.append(" docName=").append(getDocument().getName()).append(",");
+            sb.append(" docCode=").append(getDocument().getCode()).append(",");
+        } else{
+            sb.append(" docName=").append("null").append(",");
+            sb.append(" docCode=").append("null").append(",");
+        }
+        sb.append(" docNumber=").append(getDocNumber()).append(",");
+        sb.append(" docDate=").append(getDocDate()).append(",");
+        if(country!=null){
+            sb.append(" citizenshipCode=").append(getCountry().getCode()).append(",");
+        } else {
+            sb.append(" citizenshipCode=").append("null").append(",");
+        }
+        sb.append(" isIdentified=").append(getIsIdentified()).append("}");
+        return String.valueOf(sb);
     }
 }
