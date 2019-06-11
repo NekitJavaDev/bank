@@ -5,12 +5,15 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * Input View for working with organization filter methods. Sends ROW DATA (JSON STRING) to server
+ * Input View for working with organization filter methods. Sends ROW DATA (JSON STRING) to server.
+ * You can enter a couple of letters instead of the full name, unless "isActive"!
+ * Matches are searched everywhere (begin/middle/end) in a word. Case sensitive (register) search!
  */
 public class OrganizationFilter {
 
     /**
-     * Short name of organization. This is a required parameter, but value may be empty
+     * Short name of organization. This is a required parameter.
+     * But value may be empty (this way to find all organizations)!
      */
     @NotNull
     @Size(max = 25)

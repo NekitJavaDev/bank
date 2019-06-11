@@ -19,7 +19,7 @@ public class OrganizationView {
 
     @NotNull(message = "Полное имя организации должно быть задано")
     @NotEmpty(message = "Полное имя организации не может быть пустым")
-    @Size(min = 11, max = 50, message = "Полное имя организации должно быть длиннее 10 символов и max == 50")
+    @Size(min = 11, max = 60, message = "Полное имя организации должно быть длиннее 10 символов и max == 60")
     public String fullName;
 
     @NotNull(message = "ИНН организации должно быть задано")

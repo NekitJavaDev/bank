@@ -3,7 +3,7 @@ package ru.homecompany.bank.view.organization;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 /**
- * Output View for working with organization filter methods. Returns ROW DATA (JSON STRING) to user
+ * Output View for working with organization filter methods. Return ROW DATA (JSON STRING) to user
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class OrganizationFilterView {
