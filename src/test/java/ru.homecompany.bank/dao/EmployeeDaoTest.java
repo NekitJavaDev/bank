@@ -64,6 +64,14 @@ public class EmployeeDaoTest {
         Assert.assertEquals(3, employeeById.getOffice().getId().longValue());
 
         /*
+         * Testing to find Employee by Filter without REQUIRED PARAMETER: OFFICE_ID
+         */
+        EmployeeFilter filterWithoutRequiredOfficeId = new EmployeeFilter();
+        filterWithoutRequiredOfficeId.firstName = "и";
+        List<Employee> employeeListWithoutRequiredOfficeId = employeeDao.findByFilter(filterWithoutRequiredOfficeId);
+        Assert.assertNull(employeeListWithoutRequiredOfficeId);
+
+        /*
          * Testing to find Employee by Filter with REQUIRED PARAMETER: OFFICE_ID + potential parameter firstNAme and citizenshipCode
          */
         EmployeeFilter filter = new EmployeeFilter();

@@ -44,7 +44,7 @@ public class DocumentInfoDaoTest {
         }
 
         /*
-            Testing to find all list of countries
+            Testing to find all list of documents
          */
         List<Document> documents = documentDao.findAll();
         Assert.assertNotNull(documents);    //Assert.assertTrue(!documents.isEmpty());
@@ -64,7 +64,7 @@ public class DocumentInfoDaoTest {
         Assert.assertEquals("Паспорт гражданина РФ", documentCode.getName());
 
         /*
-            Testing to find document by code and name
+            Testing to find country by code and name
          */
         Country countryName = countryDao.findByName("Португалия");
         Country countryCode = countryDao.findByCode(String.valueOf(601));

@@ -161,24 +161,25 @@ public class EmployeeServiceTest {
         /*
          * Find new added Employee by ID
          */
-        Employee newEmployee = employeeService.findById(7);
+        Employee newEmployee = employeeService.findById(6);
         Assert.assertNotNull(newEmployee);
         Assert.assertNull(newEmployee.getDocDate());
         Assert.assertNull(newEmployee.getIsIdentified());
 
-        /*
-         * Update values of empty (not required) variables of added employee. Change "firstName", added "phone" and other null fields .
-         */
-//        EmployeeView viewUpdate = new EmployeeView();
-//        viewUpdate.id = 6;
 
         /*
          * Find all employees of 3 office. (Count of people will be equals 2)
          */
-//        EmployeeFilter thirdOfficeFilter = new EmployeeFilter();
-//        thirdOfficeFilter.officeId = 3;
-//        List<EmployeeFilterView> employeesOfThirdOffice = employeeService.findByFilter(thirdOfficeFilter);
-//        Assert.assertNotNull(employeesOfThirdOffice);
+        EmployeeFilter thirdOfficeFilter = new EmployeeFilter();
+        thirdOfficeFilter.officeId = 3;
+        try {
+            List<EmployeeFilterView> employeesOfThirdOffice = employeeService.findByFilter(thirdOfficeFilter);
+            Assert.assertNotNull(employeesOfThirdOffice);
+            Assert.assertEquals(2, employeesOfThirdOffice.size());
+        }catch (ServiceException e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 
