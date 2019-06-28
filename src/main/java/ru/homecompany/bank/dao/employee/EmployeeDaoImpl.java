@@ -38,15 +38,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public List<Employee> findByFilter(EmployeeFilter filter) {
-        if (filter != null) {
+        if (filter == null) {
+            return null;
+        } else {
             logger.info("## DAO LAYER ## Get employee by office ID and Filter parameters: " + filter.officeId + " " + filter.firstName + " " +
                     filter.lastName + " " + filter.middleName + " " + filter.position + " " + filter.docCode + " " + filter.citizenshipCode);
             CriteriaQuery<Employee> criteriaQuery = buildCriteriaFilterList(filter);
+            if(criteriaQuery == null){
+                return null;
+            }
             TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-            logger.info("## DAO LAYER ## Get employee by office ID and Filter parameters: " + query.getResultList());
+            if(query.getResultList().isEmpty()){
+                return null;
+            }
             return query.getResultList();
-        } else {
-            return null;
         }
     }
 
@@ -58,7 +63,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
         logger.info("## DAO LAYER ## Get employee by ID : " + id);
         CriteriaQuery<Employee> criteriaQuery = buildCriteriaId(id);
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-        logger.info("## DAO LAYER ## Get employee by ID : " + query.getSingleResult());
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
+        logger.info("## DAO LAYER ## Get employee by ID : " + query.getSingleResult().toStringWhenSave());
         return query.getSingleResult();
     }
 
@@ -76,7 +84,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public void save(Employee employee) {
-        logger.info("## DAO LAYER ## Save employee : " + employee.toString());
+        logger.info("## DAO LAYER ## Save employee : " + employee.toStringWhenSave());
         em.persist(employee);
     }
 
@@ -100,6 +108,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         logger.info("## DAO LAYER ## Get employee by first name : " + firstName);
         CriteriaQuery<Employee> criteriaQuery = buildCriteriaFirstName(firstName);
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get office by first name : " + query.getSingleResult());
         return query.getResultList();
     }
@@ -112,6 +123,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         logger.info("## DAO LAYER ## Get employee by position : " + position);
         CriteriaQuery<Employee> criteriaQuery = buildCriteriaPosition(position);
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get employee by position : " + query.getResultList());
         return query.getResultList();
     }

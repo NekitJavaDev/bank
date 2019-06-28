@@ -5,14 +5,14 @@ import ru.homecompany.bank.model.Country;
 import java.util.List;
 
 /**
- * DAO for working with country documents
+ * DAO methods for working with Country class entities
  */
 public interface CountryDao {
 
     /**
      * Get all countries
      *
-     * @return @Countries
+     * @return @Countries entity class
      */
     List<Country> findAll();
 
@@ -31,5 +31,4 @@ public interface CountryDao {
      * @return @Country
      */
     Country findByName(String name);
-
 }

@@ -44,6 +44,9 @@ public class OrganizationDaoImpl implements OrganizationDao {
         logger.info("## DAO LAYER ## Get organizations by Filter(name,inn,isActive) : " + filter.name + " " + filter.inn + " " + filter.isActive);
         CriteriaQuery<Organization> criteriaQuery = buildCriteriaFilterList(filter);
         TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get organizations by Filter : " + query.getResultList());
         return query.getResultList();
     }
@@ -101,6 +104,9 @@ public class OrganizationDaoImpl implements OrganizationDao {
         logger.info("## DAO LAYER ## Get organization by name : " + name);
         CriteriaQuery<Organization> criteriaQuery = buildCriteriaName(name);
         TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get organization by name : " + query.getSingleResult());
         return query.getSingleResult();
     }

@@ -51,6 +51,9 @@ public class DocumentDaoImpl implements DocumentDao {
     public Document findByCode(String code) {
         CriteriaQuery<Document> criteriaQuery = buildCriteriaCode(code);
         TypedQuery<Document> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         return query.getSingleResult();
     }
 
@@ -61,6 +64,9 @@ public class DocumentDaoImpl implements DocumentDao {
     public Document findByName(String name) {
         CriteriaQuery<Document> criteriaQuery = buildCriteriaName(name);
         TypedQuery<Document> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         return query.getSingleResult();
     }
 

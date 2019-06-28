@@ -44,8 +44,14 @@ public class OfficeDaoImpl implements OfficeDao {
         if (filter != null) {
             logger.info("## DAO LAYER ## Get office by org ID and Filter parameters : " + orgId + " " + filter.name + " " + filter.isActive);
         }
+        if (orgId == null) {
+            return null;
+        }
         CriteriaQuery<Office> criteriaQuery = buildCriteriaFilterList(orgId, filter);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get office by org ID and Filter parameters : " + query.getResultList());
         return query.getResultList();
     }
@@ -58,6 +64,9 @@ public class OfficeDaoImpl implements OfficeDao {
         logger.info("## DAO LAYER ## Get office by ID : " + id);
         CriteriaQuery<Office> criteriaQuery = buildCriteriaId(id);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get office by ID : " + query.getSingleResult());
         return query.getSingleResult();
     }
@@ -88,6 +97,9 @@ public class OfficeDaoImpl implements OfficeDao {
         logger.info("## DAO LAYER ## Get office by name : " + name);
         CriteriaQuery<Office> criteriaQuery = buildCriteriaName(name);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get office by name : " + query.getSingleResult());
         return query.getSingleResult();
     }
@@ -100,6 +112,9 @@ public class OfficeDaoImpl implements OfficeDao {
         logger.info("## DAO LAYER ## Get office by address : " + address);
         CriteriaQuery<Office> criteriaQuery = buildCriteriaAddress(address);
         TypedQuery<Office> query = em.createQuery(criteriaQuery);
+        if (query.getResultList().isEmpty()) {
+            return null;
+        }
         logger.info("## DAO LAYER ## Get office by address : " + query.getSingleResult());
         return query.getSingleResult();
     }
