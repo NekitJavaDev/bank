@@ -26,13 +26,13 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDao employeeDao;
+    private final EmployeeDao employeeDao;
 
-    private OfficeDao officeDao;
+    private final OfficeDao officeDao;
 
-    private CountryDao countryDao;
+    private final CountryDao countryDao;
 
-    private DocumentDao documentDao;
+    private final DocumentDao documentDao;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeDao employeeDao, OfficeDao officeDao, CountryDao countryDao, DocumentDao documentDao) {
@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * {@inheritDoc}
      */
     @Override
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Employee findById(Integer id) {
         Employee employee = employeeDao.findById(id);
         if (employee == null) {
