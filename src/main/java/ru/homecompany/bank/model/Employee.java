@@ -67,7 +67,8 @@ public class Employee {
     private Country country;
 
     /**
-     * Identify of employee
+     * Status of identification.
+     * If the employee’s identity is successfully established -> status is "success" (true)
      */
     @Column(name = "is_identified")
     private Boolean isIdentified;
@@ -79,31 +80,17 @@ public class Employee {
 
     }
 
-    public Employee(String firstName, String secondName, String middleName, String position, String phone, Document document, String docNumber, Date docDate, Country country, Boolean isIdentified) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.middleName = middleName;
-        this.position = position;
-        this.phone = phone;
-        this.document = document;
-        this.docNumber = docNumber;
-        this.docDate = docDate;
-        this.country = country;
-        this.isIdentified = isIdentified;
-    }
-
-    // TODO: 11.06.2019 constructor to OR for .ниже 
     /**
      * Constructor to save(add) new Employee
      *
-     * @param firstName
-     * @param secondName
-     * @param middleName
-     * @param position
-     * @param phone
-     * @param docNumber
-     * @param docDate
-     * @param isIdentified
+     * @param firstName    name
+     * @param secondName   surname
+     * @param middleName   patronymic
+     * @param position     position(function) at work
+     * @param phone        cell phone number
+     * @param docNumber    № and serial of Document Identity
+     * @param docDate      date of issue
+     * @param isIdentified status of identification(true/false)
      */
     public Employee(String firstName, String secondName, String middleName, String position, String phone, String docNumber, Date docDate, Boolean isIdentified) {
         this.firstName = firstName;
@@ -300,16 +287,16 @@ public class Employee {
         sb.append(" middleName=").append(getMiddleName()).append(",");
         sb.append(" position=").append(getPosition()).append(",");
         sb.append(" phone=").append(getPhone()).append(",");
-        if(document!=null){
+        if (document != null) {
             sb.append(" docName=").append(getDocument().getName()).append(",");
             sb.append(" docCode=").append(getDocument().getCode()).append(",");
-        } else{
+        } else {
             sb.append(" docName=").append("null").append(",");
             sb.append(" docCode=").append("null").append(",");
         }
         sb.append(" docNumber=").append(getDocNumber()).append(",");
         sb.append(" docDate=").append(getDocDate()).append(",");
-        if(country!=null){
+        if (country != null) {
             sb.append(" citizenshipCode=").append(getCountry().getCode()).append(",");
         } else {
             sb.append(" citizenshipCode=").append("null").append(",");

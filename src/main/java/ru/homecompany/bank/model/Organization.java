@@ -93,7 +93,6 @@ public class Organization {
         return id;
     }
 
-
     /**
      * Return name of organization
      *
